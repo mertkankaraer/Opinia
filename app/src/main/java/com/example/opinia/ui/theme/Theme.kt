@@ -254,7 +254,7 @@ val unspecified_scheme = ColorFamily(
 fun OpiniaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false, // kendi renklerimizi kullanacağız
+    dynamicColor: Boolean = true, //sabit renkler kullanılacaksa false olarak değiştir
     content: @Composable() () -> Unit
 ) {
     val colorScheme = when {
@@ -270,6 +270,7 @@ fun OpiniaTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = shapes,
         content = content
     )
 }
