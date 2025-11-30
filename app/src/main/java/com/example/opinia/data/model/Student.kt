@@ -13,5 +13,6 @@ data class Student(
     val departmentID: String = "",
     val studentProfileAvatar: String = "", //Avatar sınıfının key'ini tutacak
 
-    val enrolledCourseIds: List<String> = emptyList()
+    val enrolledCourseIds: List<String> = emptyList(),
+    val savedCommentReviewIds: List<String> = emptyList()
 )
