@@ -13,5 +13,5 @@ data class Course(
     val akts: Int = 0,
     val credits: Int = 0,
 
-    val instructorIds: List<Instructor> = emptyList()
+    val instructorIds: List<String> = emptyList()
 )
