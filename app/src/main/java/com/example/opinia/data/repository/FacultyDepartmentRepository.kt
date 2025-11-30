@@ -30,6 +30,17 @@ class FacultyDepartmentRepository @Inject constructor(private val firestore: Fir
         }
     }
 
+    suspend fun createFaculty(faculty: Faculty): Result<Unit> {
+        return try {
+            firestore.collection(collectionFacultyName).document(faculty.facultyId).set(faculty).await()
+            Log.d(TAG, "Faculty created successfully")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error creating faculty", e)
+            Result.failure(e)
+        }
+    }
+
     suspend fun getDepartmentById(departmentId: String): Result<Department?> {
         return try {
             val documentSnapshot = firestore.collection(collectionDepartmentName).document(departmentId).get().await()
@@ -43,6 +54,17 @@ class FacultyDepartmentRepository @Inject constructor(private val firestore: Fir
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error retrieving department", e)
+            Result.failure(e)
+        }
+    }
+
+    suspend fun createDepartment(department: Department): Result<Unit> {
+        return try {
+            firestore.collection(collectionDepartmentName).document(department.departmentId).set(department).await()
+            Log.d(TAG, "Department created successfully")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error creating department", e)
             Result.failure(e)
         }
     }
