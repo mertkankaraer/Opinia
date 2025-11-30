@@ -29,6 +29,21 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
+    //search için query'i küçültüp searchName'e kaydeder
+    //seed işlemi için kullanılacak
+    suspend fun createInstructor(instructor: Instructor): Result<Unit> {
+        val lowerCaseName = instructor.instructorName.lowercase()
+        val finalInstructor = instructor.copy(searchName = lowerCaseName)
+        return try {
+            firestore.collection(collectionName).document(finalInstructor.instructorId).set(finalInstructor).await()
+            Log.d(TAG, "Instructor created successfully")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error creating instructor", e)
+            Result.failure(e)
+        }
+    }
+
     suspend fun getAllInstructors(): Result<List<Instructor>> {
         return try {
             val snapshot = firestore.collection(collectionName).get().await()
@@ -61,11 +76,11 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
 
     suspend fun searchInstructors(query: String): Result<List<Instructor>> {
         return try {
-            val snapshot = firestore.collection(collectionName).startAt(query).endAt(query + "\uf8ff").get().await()
+            val normalizedQuery = query.lowercase()
+            val snapshot = firestore.collection(collectionName).orderBy("searchName").startAt(normalizedQuery).endAt(normalizedQuery + "\uf8ff").get().await()
             val instructors = snapshot.toObjects(Instructor::class.java)
-            val sortedInstructor = instructors.sortedBy { it.instructorName }
             Log.d(TAG, "Instructors searched successfully")
-            Result.success(sortedInstructor)
+            Result.success(instructors)
         } catch (e: Exception) {
             Log.e(TAG, "Error searching instructors", e)
             Result.failure(e)
