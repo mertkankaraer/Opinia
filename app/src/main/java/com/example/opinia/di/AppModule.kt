@@ -26,9 +26,4 @@ object AppModule {
         return FirebaseFirestore.getInstance()
     }
 
-    @Provides
-    @Singleton
-    fun provideInstructorRepository(firestore: FirebaseFirestore): InstructorRepository {
-        return InstructorRepository(firestore)
-    }
 }
