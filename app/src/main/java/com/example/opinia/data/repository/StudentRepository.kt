@@ -14,7 +14,7 @@ class StudentRepository @Inject constructor(private val firestore: FirebaseFires
 
     suspend fun createOrUpdateStudent(student: Student): Result<Unit> {
         return try {
-            firestore.collection(collectionName).document(student.studentID).set(student).await()
+            firestore.collection(collectionName).document(student.studentId).set(student).await()
             Log.d(TAG, "Student created or updated successfully")
             Result.success(Unit)
         } catch (e: Exception) {
