@@ -5,8 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
+
 enum class Destination(val route: String) {
     START("start") // bunu güncelle splash screen olacak şekilde (kaan)
+    Log.d("Destination", "Route: ${Destination.START.route}")
 }
 
 @Composable
