@@ -210,6 +210,19 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
+    //hocanın bağlı olduğu departmanları verir
+    suspend fun getDepartmentIdsByInstructorId(instructorId: String): Result<List<String>> {
+        return try {
+            val documentSnapshot = firestore.collection(collectionName).document(instructorId).get().await()
+            val departmentIds = documentSnapshot.get("departmentIds") as? List<String> ?: emptyList()
+            Log.d(TAG, "Department IDs retrieved successfully")
+            Result.success(departmentIds)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error retrieving department IDs", e)
+            Result.failure(e)
+        }
+    }
+
     //hocaları arama
     suspend fun searchInstructors(query: String): Result<List<Instructor>> {
         return try {

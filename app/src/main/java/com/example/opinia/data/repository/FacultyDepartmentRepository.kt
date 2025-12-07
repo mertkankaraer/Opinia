@@ -144,6 +144,7 @@ class FacultyDepartmentRepository @Inject constructor(private val firestore: Fir
     }
 
     //course ta bulunan departmantIds listesi için kullanılır
+    //instructor ta bulunan departmentIds listesi için kullanılır
     suspend fun getDepartmentsByIds(departmentIds: List<String>): Result<List<Department>> {
         if (departmentIds.isEmpty()) {
             Log.d(TAG, "No department IDs provided or empty")

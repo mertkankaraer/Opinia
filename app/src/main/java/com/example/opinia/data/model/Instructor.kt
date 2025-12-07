@@ -12,5 +12,6 @@ data class Instructor(
     val instructorTitle: String = "",
     val searchName: String = "",
 
+    val departmentIds: List<String> = emptyList(),
     val givenCourseIds: List<String> = emptyList()
 )
