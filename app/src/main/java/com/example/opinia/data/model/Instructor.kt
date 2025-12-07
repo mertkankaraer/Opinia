@@ -8,6 +8,7 @@ data class Instructor(
     val facultyId: String = "",
     val instructorName: String = "",
     val instructorEmail: String = "",
+    val phoneNumber: String = "",
     val instructorTitle: String = "",
     val searchName: String = "",
 

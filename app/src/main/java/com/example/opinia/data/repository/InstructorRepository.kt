@@ -109,6 +109,18 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
+    //hocanın telefon numarasını günceller
+    suspend fun updateInstructorPhoneNumber(instructorId: String, phoneNumber: String): Result<Unit> {
+        return try {
+            firestore.collection(collectionName).document(instructorId).update("phoneNumber", phoneNumber).await()
+            Log.d(TAG, "Instructor phone number updated successfully")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating instructor phone number", e)
+            Result.failure(e)
+        }
+    }
+
     //hocanın ünvanını günceller
     suspend fun updateInstructorTitle(instructorId: String, instructorTitle: String): Result<Unit> {
         return try {
