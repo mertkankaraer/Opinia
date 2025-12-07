@@ -223,7 +223,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocaları arama
+    //hocaları arama (sadece adı soyadına göre arama yapılır)
     suspend fun searchInstructors(query: String): Result<List<Instructor>> {
         return try {
             val normalizedQuery = query.trim().lowercase()

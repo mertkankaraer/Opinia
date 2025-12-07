@@ -194,7 +194,7 @@ class CourseRepository @Inject constructor(private val firestore: FirebaseFirest
         }
     }
 
-    //ders arama
+    //ders arama (sadece ders koduna göre arama yapılır)
     suspend fun searchCourses(query: String): Result<List<Course>> {
         return try {
             val normalizedQuery = query.trim().lowercase()
