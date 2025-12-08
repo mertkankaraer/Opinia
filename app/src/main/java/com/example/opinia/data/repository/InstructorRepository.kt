@@ -13,25 +13,28 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
     private val collectionName = "instructors"
     private val TAG = "InstructorRepository"
 
-    //id ye göre tek hoca verir
+    // id ye göre tek hoca verir
     suspend fun getInstructorById(instructorId: String): Result<Instructor?> {
         return try {
             val documentSnapshot = firestore.collection(collectionName).document(instructorId).get().await()
+
             if (documentSnapshot.exists()) {
                 val instructor = documentSnapshot.toObject(Instructor::class.java)
-                Log.d(TAG, "Instructor retrieved successfully")
+                // Arkadaşının istediği SUCCESS logu buraya eklendi
+                Log.d("InstructorRepository", "Success, fetched instructor with id=$instructorId: $instructor")
                 Result.success(instructor)
             } else {
                 Log.d(TAG, "Instructor not found")
                 Result.success(null)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error retrieving instructor", e)
+            // Arkadaşının istediği FAILURE logu buraya eklendi
+            Log.e("InstructorRepository", "Failure, error fetching instructor with id=$instructorId", e)
             Result.failure(e)
         }
     }
 
-    //tüm hocaları verir
+    // tüm hocaları verir
     suspend fun getAllInstructors(): Result<List<Instructor>> {
         return try {
             val snapshot = firestore.collection(collectionName).get().await()
@@ -45,8 +48,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //search için query'i küçültüp searchName'e kaydeder
-    //seed işlemi için kullanılacak
+    // search için query'i küçültüp searchName'e kaydeder
     suspend fun createInstructor(instructor: Instructor): Result<Unit> {
         val lowerCaseName = instructor.instructorName.trim().lowercase()
         val finalInstructor = instructor.copy(searchName = lowerCaseName)
@@ -60,7 +62,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocaya ders ekler
+    // hocaya ders ekler
     suspend fun addCourseToGivenCourseIds(instructorId: String, courseId: String): Result<Unit> {
         return try {
             firestore.collection(collectionName).document(instructorId).update("givenCourseIds", FieldValue.arrayUnion(courseId)).await()
@@ -72,7 +74,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın bağlı olduğu dersi çıkarır
+    // hocanın bağlı olduğu dersi çıkarır
     suspend fun removeCourseToGivenCourseIds(instructorId: String, courseId: String): Result<Unit> {
         return try {
             firestore.collection(collectionName).document(instructorId).update("givenCourseIds", FieldValue.arrayRemove(courseId)).await()
@@ -84,7 +86,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın isimini günceller (soyadı da dahil)
+    // hocanın isimini günceller
     suspend fun updateInstructorName(instructorId: String, instructorName: String): Result<Unit> {
         val lowerCaseName = instructorName.trim().lowercase()
         return try {
@@ -97,7 +99,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın e-posta adresini günceller
+    // hocanın e-posta adresini günceller
     suspend fun updateInstructorEmail(instructorId: String, instructorEmail: String): Result<Unit> {
         return try {
             firestore.collection(collectionName).document(instructorId).update("instructorEmail", instructorEmail).await()
@@ -109,7 +111,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın telefon numarasını günceller
+    // hocanın telefon numarasını günceller
     suspend fun updateInstructorPhoneNumber(instructorId: String, phoneNumber: String): Result<Unit> {
         return try {
             firestore.collection(collectionName).document(instructorId).update("phoneNumber", phoneNumber).await()
@@ -121,7 +123,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın ünvanını günceller
+    // hocanın ünvanını günceller
     suspend fun updateInstructorTitle(instructorId: String, instructorTitle: String): Result<Unit> {
         return try {
             firestore.collection(collectionName).document(instructorId).update("instructorTitle", instructorTitle).await()
@@ -133,7 +135,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın bağlı olduğu fakültenin id sini verir
+    // hocanın bağlı olduğu fakültenin id sini verir
     suspend fun getFacultyIdByInstructorId(instructorId: String): Result<String?> {
         return try {
             val documentSnapshot = firestore.collection(collectionName).document(instructorId).get().await()
@@ -151,7 +153,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //fakülteye bağlı hocaları çeker
+    // fakülteye bağlı hocaları çeker
     suspend fun getInstructorsByFacultyId(facultyId: String): Result<List<Instructor>> {
         return try {
             val snapshot = firestore.collection(collectionName).whereEqualTo("facultyId", facultyId).get().await()
@@ -165,14 +167,14 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //course ta bulunan instructorIds listesi için kullanılır
+    // course ta bulunan instructorIds listesi için kullanılır
     suspend fun getInstructorsByIds(instructorIds: List<String>): Result<List<Instructor>> {
         if (instructorIds.isEmpty()) {
             Log.d(TAG, "No instructor IDs provided or empty")
             return Result.success(emptyList())
         }
         return try {
-            val snapshot = firestore.collection(collectionName).whereIn(FieldPath.documentId(), instructorIds).get().await() //maks 30 id
+            val snapshot = firestore.collection(collectionName).whereIn(FieldPath.documentId(), instructorIds).get().await()
             val instructors = snapshot.toObjects(Instructor::class.java)
             val sortedInstructors = instructors.sortedBy { it.instructorName }
             Log.d(TAG, "Instructors retrieved by IDs")
@@ -183,7 +185,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //dersi veren hocaları çekmek için
+    // dersi veren hocaları çekmek için
     suspend fun getInstructorsByCourseId(courseId: String): Result<List<Instructor>> {
         return try {
             val snapshot = firestore.collection(collectionName).whereArrayContains("givenCourseIds", courseId).get().await()
@@ -197,7 +199,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocaların verdiği dersleri verir
+    // hocaların verdiği dersleri verir
     suspend fun getCourseIdsByInstructorId(instructorId: String): Result<List<String>> {
         return try {
             val documentSnapshot = firestore.collection(collectionName).document(instructorId).get().await()
@@ -210,7 +212,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocanın bağlı olduğu departmanları verir
+    // hocanın bağlı olduğu departmanları verir
     suspend fun getDepartmentIdsByInstructorId(instructorId: String): Result<List<String>> {
         return try {
             val documentSnapshot = firestore.collection(collectionName).document(instructorId).get().await()
@@ -223,7 +225,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    //hocaları arama (sadece adı soyadına göre arama yapılır)
+    // hocaları arama
     suspend fun searchInstructors(query: String): Result<List<Instructor>> {
         return try {
             val normalizedQuery = query.trim().lowercase()
@@ -236,5 +238,4 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
             Result.failure(e)
         }
     }
-
 }
