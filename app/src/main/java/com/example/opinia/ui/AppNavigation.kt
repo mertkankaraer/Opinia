@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.opinia.ui.onboarding_authentication.ChooseLoginOrSignupScreen
+import com.example.opinia.ui.onboarding_authentication.ForgotPasswordScreen
+import com.example.opinia.ui.onboarding_authentication.ForgotPasswordViewModel
 import com.example.opinia.ui.onboarding_authentication.LoginScreen
 import com.example.opinia.ui.onboarding_authentication.LoginViewModel
 import com.example.opinia.ui.onboarding_authentication.SplashScreen
@@ -47,6 +49,11 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             composable(Destination.LOGIN.route) {
                 val loginViewModel: LoginViewModel = hiltViewModel()
                 LoginScreen(navController, loginViewModel)
+            }
+
+            composable(Destination.FORGOT_PASSWORD.route) {
+                val forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel()
+                ForgotPasswordScreen(navController, forgotPasswordViewModel)
             }
         }
     )
