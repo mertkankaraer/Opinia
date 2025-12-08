@@ -17,19 +17,16 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
     suspend fun getInstructorById(instructorId: String): Result<Instructor?> {
         return try {
             val documentSnapshot = firestore.collection(collectionName).document(instructorId).get().await()
-
             if (documentSnapshot.exists()) {
                 val instructor = documentSnapshot.toObject(Instructor::class.java)
-                // Arkadaşının istediği SUCCESS logu buraya eklendi
-                Log.d("InstructorRepository", "Success, fetched instructor with id=$instructorId: $instructor")
+                Log.d(TAG, "Instructor retrieved successfully")
                 Result.success(instructor)
             } else {
                 Log.d(TAG, "Instructor not found")
                 Result.success(null)
             }
         } catch (e: Exception) {
-            // Arkadaşının istediği FAILURE logu buraya eklendi
-            Log.e("InstructorRepository", "Failure, error fetching instructor with id=$instructorId", e)
+            Log.e(TAG, "Failure, error fetching instructor", e)
             Result.failure(e)
         }
     }
@@ -49,6 +46,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
     }
 
     // search için query'i küçültüp searchName'e kaydeder
+    //seed işlemi için kullanılacak
     suspend fun createInstructor(instructor: Instructor): Result<Unit> {
         val lowerCaseName = instructor.instructorName.trim().lowercase()
         val finalInstructor = instructor.copy(searchName = lowerCaseName)
@@ -86,7 +84,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    // hocanın isimini günceller
+    // hocanın isimini günceller (soyadı da dahil)
     suspend fun updateInstructorName(instructorId: String, instructorName: String): Result<Unit> {
         val lowerCaseName = instructorName.trim().lowercase()
         return try {
@@ -174,7 +172,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
             return Result.success(emptyList())
         }
         return try {
-            val snapshot = firestore.collection(collectionName).whereIn(FieldPath.documentId(), instructorIds).get().await()
+            val snapshot = firestore.collection(collectionName).whereIn(FieldPath.documentId(), instructorIds).get().await() //maks 30 id
             val instructors = snapshot.toObjects(Instructor::class.java)
             val sortedInstructors = instructors.sortedBy { it.instructorName }
             Log.d(TAG, "Instructors retrieved by IDs")
@@ -225,7 +223,7 @@ class InstructorRepository @Inject constructor(private val firestore: FirebaseFi
         }
     }
 
-    // hocaları arama
+    // hocaları arama (sadece adı soyadına göre arama yapılır)
     suspend fun searchInstructors(query: String): Result<List<Instructor>> {
         return try {
             val normalizedQuery = query.trim().lowercase()
