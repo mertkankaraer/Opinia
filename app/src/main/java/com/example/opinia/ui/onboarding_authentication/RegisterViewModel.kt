@@ -28,7 +28,6 @@ data class RegisterUiState(
     val email: String = "",
     val password: String = "",
     val passwordDummy: String = "",
-    // sayfa 2 avatar seçimi
     val selectedAvatarId: String = "",
     // sayfa 3 akademik bilgiler
     val availableFaculties: List<Faculty> = emptyList(), // backendden gelecek liste
@@ -91,12 +90,11 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(passwordDummy = passwordDummy) }
     }
 
-    // 2. sayfa update fonksiyonu
     fun selectAvatar(avatarId: String) {
         _uiState.update { it.copy(selectedAvatarId = avatarId) }
     }
 
-    // 3. sayfa update fonksiyonu
+    // 2. sayfa update fonksiyonu
     // 1. Tüm Fakülteleri Çek
     private fun fetchFaculties() {
         viewModelScope.launch {
@@ -162,7 +160,7 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(selectedStdYear = year) }
     }
 
-    // 4. sayfa update fonksiyonu
+    // 3. sayfa update fonksiyonu
     // Checkbox
     fun toggleCourseSelection(course: Course) {
         _uiState.update { currentState ->
@@ -232,19 +230,6 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun validateStep2(): Boolean {
-        val state = uiState.value
-        if (!networkManager.isInternetAvailable()) {
-            sendErrorEvent("No internet connection")
-            return false
-        }
-        if (state.selectedAvatarId.isEmpty()) {
-            sendErrorEvent("Please select an avatar")
-            return false
-        }
-        return true
-    }
-
-    fun validateStep3(): Boolean {
         val state = uiState.value
         if (!networkManager.isInternetAvailable()) {
             sendErrorEvent("No internet connection")
