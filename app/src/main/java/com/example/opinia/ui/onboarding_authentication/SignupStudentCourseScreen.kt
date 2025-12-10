@@ -60,7 +60,7 @@ fun SignupStudentCourseContent(
                 .height(63.dp)
         )
 
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         Text("Choose Your Courses", style = MaterialTheme.typography.titleSmall, color = OpinialightBlue)
 
