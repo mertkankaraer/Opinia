@@ -105,7 +105,7 @@ fun SignupStudentCourseScreen(navController: NavController, registerViewModel: R
                 is RegisterUiEvent.SignupSuccess -> {
                     Toast.makeText(context, "Signup Success", Toast.LENGTH_SHORT).show()
                     navController.navigate(Destination.DASHBOARD.route) {
-                        popUpTo(Destination.CHOOSE_LOGIN_OR_SIGNUP) { inclusive = true }
+                        popUpTo(Destination.CHOOSE_LOGIN_OR_SIGNUP.route) { inclusive = true }
                     }
                 }
                 else -> Unit
