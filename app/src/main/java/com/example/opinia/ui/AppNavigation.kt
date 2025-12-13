@@ -104,6 +104,11 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 ProfileScreen(navController, profileScreenViewModel)
             }
 
+            composable(Destination.STUDENT_SAVED_COURSES.route) {
+                val savedCoursesViewModel: SavedCoursesViewModel = hiltViewModel()
+                SavedCoursesScreen(navController, savedCoursesViewModel)
+            }
+
         }
     )
 }
