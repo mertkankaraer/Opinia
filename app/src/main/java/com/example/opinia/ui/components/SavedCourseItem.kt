@@ -1,0 +1,63 @@
+package com.example.opinia.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import com.example.opinia.data.model.Course
+import com.example.opinia.ui.theme.OpiniaDeepBlue
+import com.example.opinia.ui.theme.OpiniaPurple
+import com.example.opinia.ui.theme.black
+
+@Composable
+fun SavedCourseItem(
+    course: Course,
+    onItemClick: (String) -> Unit,
+    isSaved: Boolean,
+    onUnsaveClick: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 10.dp)
+            .clip(shape = MaterialTheme.shapes.extraLarge)
+            .background(OpiniaPurple)
+            .clickable { onItemClick(course.courseId) }
+            .height(40.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = if (isSaved) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
+            contentDescription = if (isSaved) "Unsave Course" else "Save Course",
+            tint = OpiniaDeepBlue,
+            modifier = Modifier
+                .size(36.dp)
+                .padding(start = 12.dp)
+                .clickable { onUnsaveClick(course.courseId) }
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = "${course.courseCode} - ${course.courseName}",
+            style = MaterialTheme.typography.bodyLarge,
+            color = black
+        )
+    }
+}
