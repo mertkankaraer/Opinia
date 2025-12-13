@@ -51,28 +51,13 @@ class SeederRepository @Inject constructor(
         try {
             Log.d(TAG, "SEEDING STARTED...")
 
-            // DUMMY STUDENT
-            val dummyStudent = Student(
-                "apyir8gC5dUZQowxfQYU4Advwm83",
-                "kaan.akkok@std.yeditepe.edu.tr",
-                "Kaan",
-                "Akkök",
-                "7th Semester",
-                "fac_communication",
-                "dept_visual_communication_design",
-                "turuncu",
-                listOf("vcd111", "vcd171"),
-                listOf("dummyCommentId")
-            )
-            createSeedStudent(dummyStudent)
-
             // DUMMY COMMENT
             val dummyComment = CommentReview(
                 "dummyCommentId",
                 "vcd111",
-                "apyir8gC5dUZQowxfQYU4Advwm83",
+                "SClJxdts55gVu3TbpqhY3Jj5LYv2",
                 3,
-                "This is the best course. (dummy student)",
+                "This is the best course. (admin)",
                 System.currentTimeMillis()
             )
             createSeedComment(dummyComment)
@@ -585,6 +570,66 @@ class SeederRepository @Inject constructor(
                 emptyList()
             )
             courseRepository.createCourse(vcd492)
+
+            val adv101 = Course(
+                "adv101",
+                "ADV101",
+                "Introduction to Advertising",
+                "fac_communication",
+                4,
+                3,
+                "adv101",
+                listOf(
+                    "dept_advertising_design_and_communication"
+                ),
+                emptyList()
+            )
+            courseRepository.createCourse(adv101)
+
+            val comm101 = Course(
+                "comm101",
+                "COMM101",
+                "Introduction to Communication",
+                "fac_communication",
+                5,
+                3,
+                "comm101",
+                listOf(
+                    "dept_journalism"
+                ),
+                emptyList()
+            )
+            courseRepository.createCourse(comm101)
+
+            val prp104 = Course(
+                "prp104",
+                "PRP104",
+                "Introduction to Public Relations",
+                "fac_communication",
+                6,
+                3,
+                "prp104",
+                listOf(
+                    "dept_public_relations_and_publicity"
+                ),
+                emptyList()
+            )
+            courseRepository.createCourse(prp104)
+
+            val rtc111 = Course(
+                "rtc111",
+                "RTC111",
+                "Basics of Cinema and TV Techniques",
+                "fac_communication",
+                7,
+                3,
+                "rtc111",
+                listOf(
+                    "dept_radio_television_and_film_studies"
+                ),
+                emptyList()
+            )
+            courseRepository.createCourse(rtc111)
 
             //TODO ADD MORE COURSES
             //...
