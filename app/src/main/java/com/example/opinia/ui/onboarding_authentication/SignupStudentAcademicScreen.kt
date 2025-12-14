@@ -27,7 +27,7 @@ import com.example.opinia.data.model.Department
 import com.example.opinia.data.model.Faculty
 import com.example.opinia.ui.Destination
 import com.example.opinia.ui.components.CustomButton
-import com.example.opinia.ui.components.DropdownInput
+import com.example.opinia.ui.components.DropdownWithAnimation
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpinialightBlue
 import kotlinx.coroutines.flow.collectLatest
@@ -77,7 +77,7 @@ fun SignupStudentAcademicContent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        DropdownInput(faculities, selectedFaculty, { it.facultyName }, onFacultySelected)
+        DropdownWithAnimation(faculities, selectedFaculty, { it.facultyName }, onFacultySelected)
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -85,7 +85,7 @@ fun SignupStudentAcademicContent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        DropdownInput(departments, selectedDepartment, { it.departmentName }, onDepartmentSelected)
+        DropdownWithAnimation(departments, selectedDepartment, { it.departmentName }, onDepartmentSelected)
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -93,7 +93,7 @@ fun SignupStudentAcademicContent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        DropdownInput(yearList, selectedStdYear, { it }, onYearSelected)
+        DropdownWithAnimation(yearList, selectedStdYear, { it }, onYearSelected)
 
         Spacer(modifier = Modifier.height(160.dp))
 

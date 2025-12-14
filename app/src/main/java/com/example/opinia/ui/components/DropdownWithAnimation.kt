@@ -34,7 +34,7 @@ import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpinialightBlue
 
 @Composable
-fun <T> DropdownInput(
+fun <T> DropdownWithAnimation(
     items: List<T>,
     selectedItem: T?,
     itemLabel: (T) -> String,
