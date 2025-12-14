@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +33,7 @@ import com.example.opinia.R
 import com.example.opinia.data.model.Avatar
 import com.example.opinia.ui.component.BottomNavBar
 import com.example.opinia.ui.components.AvatarChooseBox
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.OpinialightBlue
@@ -97,20 +96,18 @@ fun ChangeAvatarContent(
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            Button(
+            CustomButton(
                 onClick = onOkClicked,
-                enabled = !isLoading,
+                isButtonEnabled = !isLoading,
+                text = "OK",
+                shape = MaterialTheme.shapes.medium,
+                textStyle = MaterialTheme.typography.titleMedium,
+                containerColor = OpinialightBlue,
+                contentColor = OpiniaDeepBlue,
                 modifier = Modifier
                     .height(40.dp)
-                    .width(180.dp),
-                shape = MaterialTheme.shapes.medium,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = OpinialightBlue,
-                    contentColor = OpiniaDeepBlue
-                )
-            ) {
-                Text("OK", style = MaterialTheme.typography.titleMedium)
-            }
+                    .width(180.dp)
+            )
         }
     }
 }

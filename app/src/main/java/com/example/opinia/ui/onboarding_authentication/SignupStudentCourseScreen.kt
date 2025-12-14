@@ -30,7 +30,7 @@ import com.example.opinia.R
 import com.example.opinia.data.model.Course
 import com.example.opinia.ui.Destination
 import com.example.opinia.ui.components.CourseSelectionCard
-import com.example.opinia.ui.components.SignupButton
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpinialightBlue
 import kotlinx.coroutines.flow.collectLatest
@@ -84,7 +84,17 @@ fun SignupStudentCourseContent(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        SignupButton(onClick = onSignUpClick)
+        CustomButton(
+            onClick = onSignUpClick,
+            text = "Sign Up",
+            shape = MaterialTheme.shapes.medium,
+            textStyle = MaterialTheme.typography.titleMedium,
+            containerColor = OpinialightBlue,
+            contentColor = OpiniaDeepBlue,
+            modifier = Modifier
+                .height(40.dp)
+                .width(180.dp)
+        )
 
         Spacer(modifier = Modifier.height(32.dp))
     }

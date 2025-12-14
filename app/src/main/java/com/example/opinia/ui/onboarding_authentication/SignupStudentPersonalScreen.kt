@@ -32,7 +32,7 @@ import androidx.navigation.NavController
 import com.example.opinia.R
 import com.example.opinia.data.model.Avatar
 import com.example.opinia.ui.Destination
-import com.example.opinia.ui.components.NextButton
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.components.PasswordTextFieldInput
 import com.example.opinia.ui.components.TextFieldInput
 import com.example.opinia.ui.theme.OpiniaDeepBlue
@@ -152,7 +152,17 @@ fun SignupStudentPersonalContent(
 
         Spacer(modifier = Modifier.height(64.dp))
 
-        NextButton(onClick = onNextClick)
+        CustomButton(
+            onClick = onNextClick,
+            text = "Next",
+            shape = MaterialTheme.shapes.medium,
+            textStyle = MaterialTheme.typography.titleMedium,
+            containerColor = OpinialightBlue,
+            contentColor = OpiniaDeepBlue,
+            modifier = Modifier
+                .height(40.dp)
+                .width(180.dp)
+        )
     }
 }
 

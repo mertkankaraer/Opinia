@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.opinia.R
 import com.example.opinia.ui.Destination
-import com.example.opinia.ui.components.LoginButton
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.components.PasswordTextFieldInput
 import com.example.opinia.ui.components.TextFieldInput
 import com.example.opinia.ui.theme.OpiniaDeepBlue
@@ -76,7 +76,17 @@ fun LoginScreenContent(
 
         Spacer(modifier = Modifier.height(120.dp))
 
-        LoginButton(onClick = onLoginClick)
+        CustomButton(
+            onClick = onLoginClick,
+            text = "log In",
+            shape = MaterialTheme.shapes.medium,
+            textStyle = MaterialTheme.typography.titleMedium,
+            containerColor = OpinialightBlue,
+            contentColor = OpiniaDeepBlue,
+            modifier = Modifier
+                .height(40.dp)
+                .width(180.dp)
+        )
     }
 }
 

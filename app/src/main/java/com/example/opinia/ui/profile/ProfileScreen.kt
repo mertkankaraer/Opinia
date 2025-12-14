@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -98,35 +96,70 @@ fun ProfileContent(
 
             CustomButton(
                 onClick = { onSavedCoursesClicked() },
-                text = "Saved Courses"
+                text = "Saved Courses",
+                shape = MaterialTheme.shapes.extraLarge,
+                textStyle = MaterialTheme.typography.titleSmall,
+                containerColor = OpiniaDeepBlue,
+                contentColor = OpinialightBlue,
+                modifier = Modifier
+                    .height(36.dp)
+                    .width(270.dp)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
                 onClick = { onAddCoursesClicked() },
-                text = "Add Courses"
+                text = "Add Courses",
+                shape = MaterialTheme.shapes.extraLarge,
+                textStyle = MaterialTheme.typography.titleSmall,
+                containerColor = OpiniaDeepBlue,
+                contentColor = OpinialightBlue,
+                modifier = Modifier
+                    .height(36.dp)
+                    .width(270.dp)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
                 onClick = { onChangeProfileClicked() },
-                text = "Change Profile"
+                text = "Change Profile",
+                shape = MaterialTheme.shapes.extraLarge,
+                textStyle = MaterialTheme.typography.titleSmall,
+                containerColor = OpiniaDeepBlue,
+                contentColor = OpinialightBlue,
+                modifier = Modifier
+                    .height(36.dp)
+                    .width(270.dp)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
                 onClick = { onChangePasswordClicked() },
-                text = "Change Password"
+                text = "Change Password",
+                shape = MaterialTheme.shapes.extraLarge,
+                textStyle = MaterialTheme.typography.titleSmall,
+                containerColor = OpiniaDeepBlue,
+                contentColor = OpinialightBlue,
+                modifier = Modifier
+                    .height(36.dp)
+                    .width(270.dp)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
                 onClick = { onSupportClicked() },
-                text = "Support"
+                text = "Support",
+                shape = MaterialTheme.shapes.extraLarge,
+                textStyle = MaterialTheme.typography.titleSmall,
+                containerColor = OpiniaDeepBlue,
+                contentColor = OpinialightBlue,
+                modifier = Modifier
+                    .height(36.dp)
+                    .width(270.dp)
             )
 
             Spacer(modifier = Modifier.height(28.dp))
@@ -134,19 +167,17 @@ fun ProfileContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Button(
+                CustomButton(
                     onClick = { /* TODO: Handle Turkish language selection */ },
+                    text = "TR",
+                    shape = MaterialTheme.shapes.large,
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    containerColor = OpiniaDeepBlue,
+                    contentColor = OpinialightBlue,
                     modifier = Modifier
                         .height(40.dp)
-                        .width(100.dp),
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = OpiniaDeepBlue,
-                        contentColor = OpinialightBlue
-                    )
-                ) {
-                    Text("TR", style = MaterialTheme.typography.titleSmall)
-                }
+                        .width(100.dp)
+                )
 
                 Spacer(modifier = Modifier.width(27.dp))
 
@@ -154,36 +185,32 @@ fun ProfileContent(
 
                 Spacer(modifier = Modifier.width(27.dp))
 
-                Button(
+                CustomButton(
                     onClick = { /* TODO: Handle English language selection */ },
+                    text = "ENG",
+                    shape = MaterialTheme.shapes.large,
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    containerColor = OpiniaDeepBlue,
+                    contentColor = OpinialightBlue,
                     modifier = Modifier
                         .height(40.dp)
-                        .width(100.dp),
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = OpiniaDeepBlue,
-                        contentColor = OpinialightBlue
-                    )
-                ) {
-                    Text("ENG", style = MaterialTheme.typography.titleSmall)
-                }
+                        .width(100.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            Button(
+            CustomButton(
                 onClick = onLogoutClicked,
+                text = "Log out",
+                shape = MaterialTheme.shapes.medium,
+                textStyle = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                containerColor = OpinialightBlue,
+                contentColor = OpiniaDeepBlue,
                 modifier = Modifier
                     .height(40.dp)
-                    .width(180.dp),
-                shape = MaterialTheme.shapes.medium,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = OpinialightBlue,
-                    contentColor = OpiniaDeepBlue
-                )
-            ) {
-                Text("Log out", style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp))
-            }
+                    .width(180.dp)
+            )
 
             Spacer(modifier = Modifier.height(48.dp))
         }

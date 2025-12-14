@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.opinia.R
-import com.example.opinia.ui.components.ResetPasswordButton
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.components.TextFieldInput
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpinialightBlue
@@ -63,7 +63,18 @@ fun ForgotPasswordScreenContent(
 
         Spacer(modifier = Modifier.height(120.dp))
 
-        ResetPasswordButton(onClick = onResetPasswordClick, isButtonEnabled)
+        CustomButton(
+            onClick = onResetPasswordClick,
+            text = "Reset Password",
+            isButtonEnabled = isButtonEnabled,
+            shape = MaterialTheme.shapes.medium,
+            textStyle = MaterialTheme.typography.titleMedium,
+            containerColor = OpinialightBlue,
+            contentColor = OpiniaDeepBlue,
+            modifier = Modifier
+                .height(40.dp)
+                .width(180.dp)
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 

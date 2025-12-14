@@ -26,8 +26,8 @@ import com.example.opinia.R
 import com.example.opinia.data.model.Department
 import com.example.opinia.data.model.Faculty
 import com.example.opinia.ui.Destination
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.components.DropdownInput
-import com.example.opinia.ui.components.NextButton
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpinialightBlue
 import kotlinx.coroutines.flow.collectLatest
@@ -97,7 +97,17 @@ fun SignupStudentAcademicContent(
 
         Spacer(modifier = Modifier.height(160.dp))
 
-        NextButton(onClick = onNextClick)
+        CustomButton(
+            onClick = onNextClick,
+            text = "Next",
+            shape = MaterialTheme.shapes.medium,
+            textStyle = MaterialTheme.typography.titleMedium,
+            containerColor = OpinialightBlue,
+            contentColor = OpiniaDeepBlue,
+            modifier = Modifier
+                .height(40.dp)
+                .width(180.dp)
+        )
     }
 
 }

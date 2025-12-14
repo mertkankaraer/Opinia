@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import com.example.opinia.R
 import com.example.opinia.data.model.Avatar
 import com.example.opinia.ui.components.AvatarChooseBox
-import com.example.opinia.ui.components.NextButton
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpinialightBlue
 
@@ -66,7 +66,17 @@ fun SignupStudentAvatarContent(
 
         Spacer(modifier = Modifier.height(80.dp))
 
-        NextButton(onClick = onNextClick)
+        CustomButton(
+            onClick = onNextClick,
+            text = "Next",
+            shape = MaterialTheme.shapes.medium,
+            textStyle = MaterialTheme.typography.titleMedium,
+            containerColor = OpinialightBlue,
+            contentColor = OpiniaDeepBlue,
+            modifier = Modifier
+                .height(40.dp)
+                .width(180.dp)
+        )
     }
 
 }

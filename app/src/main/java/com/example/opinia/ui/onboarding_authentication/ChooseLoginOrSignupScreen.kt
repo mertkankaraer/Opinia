@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.opinia.R
 import com.example.opinia.ui.Destination
-import com.example.opinia.ui.components.LoginButton
-import com.example.opinia.ui.components.SignupButton
+import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.theme.OpiniaDeepBlue
+import com.example.opinia.ui.theme.OpinialightBlue
 
 @Composable
 fun ChooseLoginOrSignupScreen(navController: NavController) {
@@ -59,12 +60,31 @@ fun ChooseLoginOrSignupContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            LoginButton(onClick = onLoginClick)
+            CustomButton(
+                onClick = onLoginClick,
+                text = "Log In",
+                shape = MaterialTheme.shapes.medium,
+                textStyle = MaterialTheme.typography.titleMedium,
+                containerColor = OpinialightBlue,
+                contentColor = OpiniaDeepBlue,
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(180.dp)
+            )
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            SignupButton(onClick = onSignupClick)
-
+            CustomButton(
+                onClick = onSignupClick,
+                text = "Sign Up",
+                shape = MaterialTheme.shapes.medium,
+                textStyle = MaterialTheme.typography.titleMedium,
+                containerColor = OpinialightBlue,
+                contentColor = OpiniaDeepBlue,
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(180.dp)
+            )
         }
     }
 }
