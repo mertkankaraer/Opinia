@@ -638,6 +638,66 @@ class SeederRepository @Inject constructor(
             //============================================================================================================================================================
             // INSTRUCTORS
 
+            val adv_instructor1 = Instructor(
+                "adv_instructor1_billur_ulger",
+                "fac_communication",
+                "Billur Ülger",
+                "bulger@yeditepe.edu.tr",
+                "1630",
+                "Prof. Dr.",
+                "billur ülger",
+                listOf(
+                    "dept_advertising_design_and_communication"
+                ),
+                emptyList()
+            )
+            instructorRepository.createInstructor(adv_instructor1)
+
+            val jrn_instructor1 = Instructor(
+                "jrn_instructor1_suat_gezgin",
+                "fac_communication",
+                "Suat Gezgin",
+                "suat.gezgin@yeditepe.edu.tr",
+                "1635",
+                "Prof. Dr.",
+                "suat gezgin",
+                listOf(
+                    "dept_journalism"
+                ),
+                emptyList()
+            )
+            instructorRepository.createInstructor(jrn_instructor1)
+
+            val pub_instructor1 = Instructor(
+                "pub_instructor1_pelin_hurmeric",
+                "fac_communication",
+                "Pelin Hürmeriç",
+                "perguven@yeditepe.edu.tr",
+                "1800",
+                "Prof. Dr.",
+                "pelin hürmeriç",
+                listOf(
+                    "dept_public_relations_and_publicity"
+                ),
+                emptyList()
+            )
+            instructorRepository.createInstructor(pub_instructor1)
+
+            val rtc_instructor1 = Instructor(
+                "rtc_instructor1_kaan_tasbasi",
+                "fac_communication",
+                "Kaan Taşbaşı",
+                "ktasbasi@yeditepe.edu.tr",
+                "1827",
+                "Prof. Dr.",
+                "kaan taşbaşı",
+                listOf(
+                    "dept_radio_television_and_film_studies"
+                ),
+                emptyList()
+            )
+            instructorRepository.createInstructor(rtc_instructor1)
+
             val vcd_instructor1 = Instructor(
                 "vcd_instructor1_neda_ucer",
                 "fac_communication",

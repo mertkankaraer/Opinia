@@ -2,6 +2,7 @@ package com.example.opinia.data.repository
 
 import android.util.Log
 import com.example.opinia.utils.NetworkManager
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -96,6 +97,28 @@ class AuthRepository @Inject constructor(private val auth: FirebaseAuth, private
                 else -> "Unkown error"
             }
             Log.e(TAG, "Password reset failed: $error")
+            Result.failure(Exception(error))
+        }
+    }
+
+    suspend fun updatePassword(currentPassword: String, newPassword: String): Result<Unit> {
+        return try {
+            val user = auth.currentUser
+            if (user == null) {
+                return Result.failure(Exception("User not authenticated"))
+            }
+            val credential = EmailAuthProvider.getCredential(user.email!!, currentPassword)
+            user.reauthenticate(credential).await()
+            user.updatePassword(newPassword).await()
+            Log.d(TAG, "Password updated successfully")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            val error = when(e) {
+                is FirebaseAuthInvalidCredentialsException -> "Invalid current password"
+                is FirebaseAuthWeakPasswordException -> "New password should be at least 6 characters"
+                else -> "Unkown error"
+            }
+            Log.e(TAG, "Password update failed: $error")
             Result.failure(Exception(error))
         }
     }
