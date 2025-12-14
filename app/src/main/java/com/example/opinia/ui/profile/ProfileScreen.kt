@@ -50,6 +50,11 @@ import com.example.opinia.ui.theme.OpinialightBlue
 @Composable
 fun ProfileContent(
     onLogoutClicked: () -> Unit,
+    onSavedCoursesClicked: () -> Unit,
+    onAddCoursesClicked: () -> Unit,
+    onChangeProfileClicked: () -> Unit,
+    onChangePasswordClicked: () -> Unit,
+    onSupportClicked: () -> Unit,
     controller: NavController
 ) {
     Scaffold(
@@ -92,35 +97,35 @@ fun ProfileContent(
             Spacer(modifier = Modifier.height(48.dp))
 
             CustomButton(
-                onClick = { controller.navigate(Destination.STUDENT_SAVED_COURSES.route) },
+                onClick = { onSavedCoursesClicked() },
                 text = "Saved Courses"
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
-                onClick = { controller.navigate(Destination.ADD_COURSE1.route) },
+                onClick = { onAddCoursesClicked() },
                 text = "Add Courses"
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
-                onClick = { controller.navigate(Destination.STUDENT_EDIT_PROFILE.route) },
+                onClick = { onChangeProfileClicked() },
                 text = "Change Profile"
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
-                onClick = { controller.navigate(Destination.STUDENT_CHANGE_PASSWORD.route) },
+                onClick = { onChangePasswordClicked() },
                 text = "Change Password"
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
-                onClick = { controller.navigate(Destination.SUPPORT.route) },
+                onClick = { onSupportClicked() },
                 text = "Support"
             )
 
@@ -219,6 +224,11 @@ fun ProfileScreen(navController: NavController, profileViewModel: ProfileViewMod
 
     ProfileContent(
         onLogoutClicked = { profileViewModel.onLogoutClicked() },
+        onSavedCoursesClicked = { navController.navigate(Destination.STUDENT_SAVED_COURSES.route) },
+        onAddCoursesClicked = { navController.navigate(Destination.STUDENT_ADD_COURSE1.route) },
+        onChangeProfileClicked = { navController.navigate(Destination.STUDENT_CHANGE_AVATAR.route) },
+        onChangePasswordClicked = { navController.navigate(Destination.STUDENT_CHANGE_PASSWORD.route) },
+        onSupportClicked = { navController.navigate(Destination.SUPPORT.route) },
         navController,
     )
 }
@@ -228,6 +238,11 @@ fun ProfileScreen(navController: NavController, profileViewModel: ProfileViewMod
 fun ProfileScreenPreview() {
     ProfileContent(
         onLogoutClicked = {},
+        onSavedCoursesClicked = {},
+        onAddCoursesClicked = {},
+        onChangeProfileClicked = {},
+        onChangePasswordClicked = {},
+        onSupportClicked = {},
         controller = NavController(LocalContext.current)
     )
 }
