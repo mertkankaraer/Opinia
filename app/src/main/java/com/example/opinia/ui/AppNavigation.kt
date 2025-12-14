@@ -29,6 +29,8 @@ import com.example.opinia.ui.profile.ProfileViewModel
 import com.example.opinia.ui.profile.SavedCoursesScreen
 import com.example.opinia.ui.profile.SavedCoursesViewModel
 import com.example.opinia.utils.sharedViewModel
+import com.example.opinia.ui.instructor.InstructorCatalogScreen
+import com.example.opinia.ui.instructor.InstructorListScreen
 
 
 //BU YOLLAR UPDATE EDİLEBİLİR
@@ -46,6 +48,7 @@ enum class Destination(val route: String) {
     COURSE_CATALOG("course_catalog"),
     COURSE_DETAIL("course_detail"),
     INSTRUCTOR_CATALOG("instructor_catalog"),
+    INSTRUCTOR_LIST("instructor_list/{departmentName}"),
     STUDENT_SAVED_COURSES("student_saved_courses"),
     STUDENT_EDIT_PROFILE("student_edit_profile"),
     STUDENT_CHANGE_PASSWORD("student_change_password"),
@@ -116,6 +119,13 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 val addCourseViewModel: AddCourseViewModel = hiltViewModel()
                 AddCourse1Screen(navController, addCourseViewModel)
             }
+            composable(Destination.INSTRUCTOR_CATALOG.route) {
+            InstructorCatalogScreen(navController)
+            }
+            composable(Destination.INSTRUCTOR_LIST.route) { backStackEntry ->
+            val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
+            InstructorListScreen(navController, departmentId)
+        }
 
 
         }
