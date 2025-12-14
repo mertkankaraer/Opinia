@@ -78,7 +78,7 @@ fun LoginScreenContent(
 
         CustomButton(
             onClick = onLoginClick,
-            text = "log In",
+            text = "Log In",
             shape = MaterialTheme.shapes.medium,
             textStyle = MaterialTheme.typography.titleMedium,
             containerColor = OpinialightBlue,

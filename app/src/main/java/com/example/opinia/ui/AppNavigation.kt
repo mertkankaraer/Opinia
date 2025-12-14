@@ -124,15 +124,6 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 AddCourse1Screen(navController, addCourseViewModel)
             }
 
-            composable(Destination.INSTRUCTOR_CATALOG.route) {
-                InstructorCatalogScreen(navController)
-            }
-
-            composable(Destination.INSTRUCTOR_LIST.route) { backStackEntry ->
-                val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
-                InstructorListScreen(navController, departmentId)
-            }
-
             composable(Destination.STUDENT_CHANGE_AVATAR.route) {
                 val changeAvatarViewModel: ChangeAvatarViewModel = hiltViewModel()
                 ChangeAvatarScreen(navController, changeAvatarViewModel)
@@ -143,6 +134,14 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 ChangePasswordScreen(navController, changePasswordViewModel)
             }
 
+            composable(Destination.INSTRUCTOR_CATALOG.route) {
+                InstructorCatalogScreen(navController)
+            }
+
+            composable(Destination.INSTRUCTOR_LIST.route) { backStackEntry ->
+                val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
+                InstructorListScreen(navController, departmentId)
+            }
         }
     )
 }
