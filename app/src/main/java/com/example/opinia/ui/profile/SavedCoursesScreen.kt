@@ -84,7 +84,7 @@ fun SavedCoursesContent(
 
             Text(
                 text = departmentName,
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleMedium,
                 color = black,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )

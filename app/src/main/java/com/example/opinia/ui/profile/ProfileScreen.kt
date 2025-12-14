@@ -99,7 +99,7 @@ fun ProfileContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomButton(
-                onClick = { controller.navigate(Destination.STUDENT_ADD_COURSES.route) },
+                onClick = { controller.navigate(Destination.ADD_COURSE1.route) },
                 text = "Add Courses"
             )
 

@@ -8,6 +8,7 @@ val OpiniaGreyWhite = Color(0xFFEEF1F4) //dashboard background color
 val OpiniaPurple = Color (0xFFC3C3F4)
 val black = Color(0xFF000000)
 val white = Color(0xFFFFFFFF)
+val gray = Color(0xFF808080)
 
 
 val primaryLight = Color(0xFF2B638B)
