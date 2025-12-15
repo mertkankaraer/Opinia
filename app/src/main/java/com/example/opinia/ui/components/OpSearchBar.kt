@@ -1,5 +1,6 @@
 package com.example.opinia.ui.components
 
+import android.R
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 // Projendeki font ailesi (eğer import hatası verirse burayı kontrol et)
 import com.example.opinia.ui.theme.WorkSansFontFamily
+import com.example.opinia.ui.theme.black
 
 @Composable
 fun OpSearchBar(
@@ -31,7 +33,8 @@ fun OpSearchBar(
         placeholder = {
             Text(
                 "search",
-                fontFamily = WorkSansFontFamily // İstediğin font
+                fontFamily = WorkSansFontFamily, // İstediğin font
+                color = Color.Black // Arama yazısını siyah yapar
             )
         },
         leadingIcon = {

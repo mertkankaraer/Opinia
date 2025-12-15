@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.opinia.R
 import com.example.opinia.ui.theme.NunitoFontFamily
+import com.example.opinia.ui.theme.black
+import com.example.opinia.ui.theme.white
 
 @Composable
 fun OpTopBar(
@@ -43,6 +45,7 @@ fun OpTopBar(
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
+                color = black,
                 text = title,
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
