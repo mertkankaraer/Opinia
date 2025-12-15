@@ -1,6 +1,7 @@
 package com.example.opinia.ui.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.height
@@ -23,30 +24,52 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.opinia.R
 import com.example.opinia.ui.Destination
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaPurple
 
-// Veri Sınıfı
 data class BottomNavItem(
     val name: String,
     val route: String,
-    @DrawableRes val picture: Int,
+    @DrawableRes val iconOutlined: Int,
+    @DrawableRes val iconFilled: Int,
+    val relatedRoutes: List<String> = emptyList()
 )
 
 @Composable
 fun BottomNavBar(navController: NavController) {
-
     val items = listOf(
-        BottomNavItem("Courses", Destination.COURSE_CATALOG.route, R.drawable.book_ribbon),
-        BottomNavItem("Dashboard", Destination.DASHBOARD.route, R.drawable.home),
-        BottomNavItem("Instructors", Destination.INSTRUCTOR_CATALOG.route, R.drawable.school)
+        BottomNavItem(
+            name = "Courses",
+            route = Destination.COURSE_CATALOG.route,
+            iconOutlined = R.drawable.book_ribbon,
+            iconFilled = R.drawable.book_ribbon_filled,
+            relatedRoutes = listOf(
+                Destination.COURSE_CATALOG.route
+            )
+        ),
+        BottomNavItem(
+            name = "Dashboard",
+            route = Destination.DASHBOARD.route,
+            iconOutlined = R.drawable.home,
+            iconFilled = R.drawable.home_filled
+        ),
+        BottomNavItem(
+            name = "Instructors",
+            route = Destination.INSTRUCTOR_CATALOG.route,
+            iconOutlined = R.drawable.school,
+            iconFilled = R.drawable.school_filled,
+            relatedRoutes = listOf(
+                Destination.INSTRUCTOR_CATALOG.route,
+                Destination.INSTRUCTOR_LIST.route
+            )
+        )
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -62,8 +85,12 @@ fun BottomNavBar(navController: NavController) {
         contentColor = Color.White
     ) {
         items.forEach { item ->
-            val isSelected = currentRoute == item.route
+            val isSelected = currentRoute == item.route ||
+                    item.relatedRoutes.any { related ->
+                        currentRoute?.startsWith(related) == true
+                    }
 
+            // Mevcut scale animasyonun
             val scale by animateFloatAsState(
                 targetValue = if (isSelected) 1.5f else 1.0f,
                 animationSpec = tween(durationMillis = 300),
@@ -73,14 +100,22 @@ fun BottomNavBar(navController: NavController) {
             NavigationBarItem(
                 alwaysShowLabel = false,
                 icon = {
-                    Icon(
-                        painter = painterResource(item.picture),
-                        contentDescription = item.name,
-                        modifier = Modifier
-                            .size(48.dp)
-                            .scale(scale)
-                            .padding(5.dp)
-                    )
+                    Crossfade(
+                        targetState = isSelected,
+                        animationSpec = tween(durationMillis = 300), // Scale ile senkronize süre
+                        label = "iconFade"
+                    ) { selected ->
+                        Icon(
+                            painter = painterResource(
+                                id = if (selected) item.iconFilled else item.iconOutlined
+                            ),
+                            contentDescription = item.name,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(scale)
+                                .padding(5.dp)
+                        )
+                    }
                 },
                 selected = isSelected,
                 onClick = {
@@ -108,7 +143,6 @@ fun BottomNavBar(navController: NavController) {
 @Composable
 fun BottomNavBarPreview() {
     val navController = rememberNavController()
-
     Scaffold(
         bottomBar = { BottomNavBar(navController = navController) }
     ) { innerPadding ->
