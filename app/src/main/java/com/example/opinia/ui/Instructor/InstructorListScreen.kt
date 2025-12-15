@@ -98,6 +98,7 @@ fun InstructorListContent(
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             } else {
                 Text(
+                    color = black,
                     text = uiState.currentDepartmentName,
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(bottom = 16.dp)
