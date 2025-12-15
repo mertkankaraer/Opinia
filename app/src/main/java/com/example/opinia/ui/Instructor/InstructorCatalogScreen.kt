@@ -136,6 +136,7 @@ fun InstructorCatalogContent(
                     }
                 } else {
                     Text(
+                        color = black,
                         text = "Faculties",
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -152,6 +153,7 @@ fun InstructorCatalogContent(
 
                     if (uiState.isDepartmentsVisible) {
                         Text(
+                            color = black,
                             text = "Departments",
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(bottom = 8.dp)
