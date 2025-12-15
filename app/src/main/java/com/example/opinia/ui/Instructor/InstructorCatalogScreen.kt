@@ -114,6 +114,7 @@ fun InstructorCatalogContent(
             // --- ARAMA MODU ---
             if (uiState.isGlobalSearching) {
                 Text(
+                    color = black,
                     text = "Search Results",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(bottom = 8.dp)
