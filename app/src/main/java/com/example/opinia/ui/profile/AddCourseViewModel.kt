@@ -53,6 +53,7 @@ class AddCourseViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     private var originalDepartmentCourses: List<Course> = emptyList()
+    private var originalFaculties: List<Faculty> = emptyList()
 
     init {
         fetchFaculties()
@@ -64,7 +65,9 @@ class AddCourseViewModel @Inject constructor(
         viewModelScope.launch {
             val result = facultyDepartmentRepository.getAllFaculties()
             if (result.isSuccess) {
-                _uiState.update { it.copy(availableFaculties = result.getOrDefault(emptyList())) }
+                val faculties = result.getOrDefault(emptyList())
+                originalFaculties = faculties
+                _uiState.update { it.copy(availableFaculties = faculties) }
             }
         }
     }
@@ -102,7 +105,8 @@ class AddCourseViewModel @Inject constructor(
             it.copy(
                 selectedFaculty = faculty,
                 selectedDepartment = null,
-                availableDepartments = emptyList()
+                availableDepartments = emptyList(),
+                searchQuery = "",
             )
         }
         fetchDepartments(faculty.facultyId)
@@ -138,7 +142,8 @@ class AddCourseViewModel @Inject constructor(
             it.copy(
                 step = 1,
                 searchQuery = "",
-                availableCourses = emptyList()
+                availableCourses = emptyList(),
+                availableFaculties = originalFaculties
             )
         }
     }
@@ -165,15 +170,28 @@ class AddCourseViewModel @Inject constructor(
 
     fun onSearchQueryChanged(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
-
-        if (query.isBlank()) {
-            _uiState.update { it.copy(availableCourses = originalDepartmentCourses) }
-        } else {
-            val filteredList = originalDepartmentCourses.filter { course ->
-                course.courseName.contains(query, ignoreCase = true) ||
-                        course.courseCode.contains(query, ignoreCase = true)
+        val currentStep = _uiState.value.step
+        if (currentStep == 1) {
+            // STEP 1: Fakülte Filtreleme
+            if (query.isBlank()) {
+                _uiState.update { it.copy(availableFaculties = originalFaculties) }
+            } else {
+                val filteredFaculties = originalFaculties.filter {
+                    it.facultyName.contains(query, ignoreCase = true)
+                }
+                _uiState.update { it.copy(availableFaculties = filteredFaculties) }
             }
-            _uiState.update { it.copy(availableCourses = filteredList) }
+        } else {
+            // STEP 2: Ders Filtreleme
+            if (query.isBlank()) {
+                _uiState.update { it.copy(availableCourses = originalDepartmentCourses) }
+            } else {
+                val filteredCourses = originalDepartmentCourses.filter { course ->
+                    course.courseName.contains(query, ignoreCase = true) ||
+                            course.courseCode.contains(query, ignoreCase = true)
+                }
+                _uiState.update { it.copy(availableCourses = filteredCourses) }
+            }
         }
     }
 

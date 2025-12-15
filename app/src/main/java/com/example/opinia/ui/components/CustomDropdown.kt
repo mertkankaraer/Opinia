@@ -1,12 +1,13 @@
 package com.example.opinia.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandCircleDown
 import androidx.compose.material3.DropdownMenu
@@ -28,7 +29,6 @@ import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaPurple
 import com.example.opinia.ui.theme.black
 import com.example.opinia.ui.theme.gray
-import com.example.opinia.ui.theme.white
 
 @Composable
 fun <T> CustomDropdown(
@@ -55,14 +55,15 @@ fun <T> CustomDropdown(
         ) {
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = if(selectedItem != null) itemLabel(selectedItem) else placeholder,
                     color = if (selectedItem != null) black else gray,
                     style = MaterialTheme.typography.bodyLarge
                 )
+
+                Spacer(modifier = Modifier.width(8.dp))
 
                 Icon(
                     imageVector = Icons.Default.ExpandCircleDown,
@@ -76,7 +77,7 @@ fun <T> CustomDropdown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .fillMaxWidth(0.9f)
+                .fillMaxWidth(0.85f)
                 .background(OpiniaPurple),
             shape = MaterialTheme.shapes.large
         ) {

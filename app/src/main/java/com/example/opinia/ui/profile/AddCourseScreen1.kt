@@ -39,6 +39,7 @@ import com.example.opinia.ui.Destination
 import com.example.opinia.ui.component.BottomNavBar
 import com.example.opinia.ui.components.CustomDropdown
 import com.example.opinia.ui.components.CustomTopAppBar
+import com.example.opinia.ui.components.SearchBar
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.OpiniaPurple
 import com.example.opinia.ui.theme.black
@@ -48,6 +49,8 @@ import com.example.opinia.ui.theme.gray
 fun AddCourse1Content(
     avatarResId: Int,
     onAvatarClick: () -> Unit,
+    query: String,
+    onQueryChange: (String) -> Unit,
     controller: NavController,
     availableFaculties: List<Faculty>,
     selectedFaculty: Faculty?,
@@ -79,6 +82,10 @@ fun AddCourse1Content(
                 .fillMaxSize()
                 .background(OpiniaGreyWhite)
         ) {
+            Spacer(modifier = Modifier.height(24.dp))
+
+            SearchBar(query, onQueryChange)
+
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
@@ -90,17 +97,56 @@ fun AddCourse1Content(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            CustomDropdown(
-                availableFaculties,
-                selectedFaculty,
-                onFacultySelected,
-                { it.facultyName },
-                "Select Faculty"
-            )
+            if (query.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(availableFaculties) { faculty ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 4.dp)
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(OpiniaPurple)
+                                .clickable {
+                                    onFacultySelected(faculty)
+                                }
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = faculty.facultyName,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = black
+                            )
+                        }
+                    }
+                    if (availableFaculties.isEmpty()) {
+                        item {
+                            Text(
+                                text = "No faculty found.",
+                                modifier = Modifier.padding(8.dp),
+                                color = gray
+                            )
+                        }
+                    }
+                }
+            } else {
+                CustomDropdown(
+                    availableFaculties,
+                    selectedFaculty,
+                    onFacultySelected,
+                    { it.facultyName },
+                    "Select Faculty"
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if (selectedFaculty != null) {
+            if (selectedFaculty != null && query.isEmpty()) {
                 Text(
                     text = "Departments",
                     style = MaterialTheme.typography.titleMedium,
@@ -187,6 +233,8 @@ fun AddCourse1Screen(navController: NavController, addCourseViewModel: AddCourse
         AddCourse1Content(
             avatarResId = uiState.avatarResId ?: R.drawable.turuncu,
             onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) },
+            query = uiState.searchQuery,
+            onQueryChange = addCourseViewModel::onSearchQueryChanged,
             controller = navController,
             availableFaculties = uiState.availableFaculties,
             selectedFaculty = uiState.selectedFaculty,
@@ -223,6 +271,8 @@ fun AddCourse1ScreenPreview() {
     AddCourse1Content(
         avatarResId = R.drawable.turuncu,
         onAvatarClick = {},
+        query = "",
+        onQueryChange = {},
         controller = NavController(LocalContext.current),
         availableFaculties = emptyList(),
         selectedFaculty = null,
