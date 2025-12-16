@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.opinia.data.model.Course
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -190,6 +191,19 @@ class CourseRepository @Inject constructor(private val firestore: FirebaseFirest
             Result.success(instructorIds)
         } catch (e: Exception) {
             Log.e(TAG, "Error retrieving instructor IDs", e)
+            Result.failure(e)
+        }
+    }
+
+    //popüler dersleri verir
+    suspend fun getPopularCourses(limit: Int = 10): Result<List<Course>> {
+        return try {
+            val snapshot = firestore.collection(collectionName).orderBy("averageRating", Query.Direction.DESCENDING).limit(limit.toLong()).get().await()
+            val courses = snapshot.toObjects(Course::class.java)
+            Log.d(TAG, "Popular courses retrieved successfully")
+            Result.success(courses)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error retrieving popular courses", e)
             Result.failure(e)
         }
     }

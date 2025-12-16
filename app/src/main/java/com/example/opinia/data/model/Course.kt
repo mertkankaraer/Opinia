@@ -11,6 +11,8 @@ data class Course(
     val akts: Int = 0,
     val credits: Int = 0,
     val searchCode: String = "",
+    val averageRating: Double = 0.0,
+    val totalReviews: Int = 0,
 
     val departmentIds: List<String> = emptyList(),
     val instructorIds: List<String> = emptyList()

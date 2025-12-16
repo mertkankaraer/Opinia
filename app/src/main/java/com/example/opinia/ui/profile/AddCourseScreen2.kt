@@ -205,6 +205,8 @@ fun AddCourse2ScreenPreview() {
         6,
         3,
         "vcd111",
+        0.0,
+        0,
         listOf(
             "dept_visual_communication_design"
         ),
@@ -219,6 +221,8 @@ fun AddCourse2ScreenPreview() {
         5,
         3,
         "vcd171",
+        0.0,
+        0,
         listOf(
             "dept_visual_communication_design"
         ),
@@ -233,6 +237,8 @@ fun AddCourse2ScreenPreview() {
         7,
         3,
         "vcd172",
+        0.0,
+        0,
         listOf(
             "dept_visual_communication_design"
         ),

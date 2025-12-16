@@ -55,7 +55,7 @@ class SeederRepository @Inject constructor(
             val dummyComment = CommentReview(
                 "dummyCommentId",
                 "vcd111",
-                "SClJxdts55gVu3TbpqhY3Jj5LYv2",
+                "Kw1sUnpuRNTxD1MN9JQw1JXRMCu2",
                 3,
                 "This is the best course. (admin)",
                 System.currentTimeMillis()
@@ -129,6 +129,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd111",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -144,6 +146,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd171",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -159,6 +163,8 @@ class SeederRepository @Inject constructor(
                 7,
                 3,
                 "vcd172",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -174,6 +180,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd271",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -189,6 +197,8 @@ class SeederRepository @Inject constructor(
                 7,
                 3,
                 "vcd273",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -204,6 +214,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd210",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -219,6 +231,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd277",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -234,6 +248,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd370",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -249,6 +265,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd382",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -264,6 +282,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd402",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -279,6 +299,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd423",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -294,6 +316,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd258",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -309,6 +333,8 @@ class SeederRepository @Inject constructor(
                 7,
                 3,
                 "vcd272",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -324,6 +350,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd274",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -339,6 +367,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd311",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -354,6 +384,8 @@ class SeederRepository @Inject constructor(
                 3,
                 3,
                 "vcd321",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -369,6 +401,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd371",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -384,6 +418,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd373",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -399,6 +435,8 @@ class SeederRepository @Inject constructor(
                 4,
                 3,
                 "vcd312",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -414,6 +452,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd372",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -429,6 +469,8 @@ class SeederRepository @Inject constructor(
                 3,
                 3,
                 "vcd378",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -444,6 +486,8 @@ class SeederRepository @Inject constructor(
                 4,
                 3,
                 "vcd384",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -459,6 +503,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "vcd421",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -474,6 +520,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd471",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -489,6 +537,8 @@ class SeederRepository @Inject constructor(
                 10,
                 3,
                 "vcd470",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -504,6 +554,8 @@ class SeederRepository @Inject constructor(
                 10,
                 3,
                 "vcd400",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -519,6 +571,8 @@ class SeederRepository @Inject constructor(
                 10,
                 3,
                 "vcd474",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -534,6 +588,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd422",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -549,6 +605,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "vcd436",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -564,6 +622,8 @@ class SeederRepository @Inject constructor(
                 8,
                 3,
                 "vcd492",
+                0.0,
+                0,
                 listOf(
                     "dept_visual_communication_design"
                 ),
@@ -579,6 +639,8 @@ class SeederRepository @Inject constructor(
                 4,
                 3,
                 "adv101",
+                0.0,
+                0,
                 listOf(
                     "dept_advertising_design_and_communication"
                 ),
@@ -594,6 +656,8 @@ class SeederRepository @Inject constructor(
                 5,
                 3,
                 "comm101",
+                0.0,
+                0,
                 listOf(
                     "dept_journalism"
                 ),
@@ -609,6 +673,8 @@ class SeederRepository @Inject constructor(
                 6,
                 3,
                 "prp104",
+                0.0,
+                0,
                 listOf(
                     "dept_public_relations_and_publicity"
                 ),
@@ -624,6 +690,8 @@ class SeederRepository @Inject constructor(
                 7,
                 3,
                 "rtc111",
+                0.0,
+                0,
                 listOf(
                     "dept_radio_television_and_film_studies"
                 ),

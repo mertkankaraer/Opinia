@@ -20,14 +20,24 @@ class CommentReviewRepository @Inject constructor(private val firestore: Firebas
     suspend fun createCommentReview(commentReview: CommentReview): Result<Unit> {
         val uid = getCurrentUserId() ?: return Result.failure(Exception("User not logged in"))
         return try {
-            val docRef = if (commentReview.commentId.isEmpty()) {
-                firestore.collection(collectionName).document()
-            } else {
-                firestore.collection(collectionName).document(commentReview.commentId)
-            }
-            val finalComment = commentReview.copy(commentId = docRef.id, studentId = uid, timestamp = System.currentTimeMillis())
-            docRef.set(finalComment).await()
-            Log.d(TAG, "Comment review created successfully")
+            firestore.runTransaction { transaction ->
+                val newCommentRef = firestore.collection(collectionName).document()
+                val courseRef = firestore.collection("courses").document(commentReview.courseId)
+                val courseSnapshot = transaction.get(courseRef)
+                val currentAverage = courseSnapshot.getDouble("averageRating") ?: 0.0
+                val currentTotal = courseSnapshot.getLong("totalReviews") ?: 0
+                val newTotal = currentTotal + 1
+                val newAverage = ((currentAverage * currentTotal) + commentReview.rating) / newTotal
+                val finalComment = commentReview.copy(
+                    commentId = newCommentRef.id,
+                    studentId = uid,
+                    timestamp = System.currentTimeMillis()
+                )
+                transaction.set(newCommentRef, finalComment)
+                transaction.update(courseRef, "averageRating", newAverage)
+                transaction.update(courseRef, "totalReviews", newTotal)
+            }.await()
+            Log.d(TAG, "Comment review created and course stats updated successfully")
             Result.success(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "Error creating comment review", e)
