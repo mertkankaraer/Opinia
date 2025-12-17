@@ -79,8 +79,7 @@ fun CommentReviewContent(
             CustomTopAppBar(
                 avatarResId = avatarResId,
                 onAvatarClick = onAvatarClick,
-                text = "Course Comment",
-                modifier = Modifier.padding(top = 5.dp, start = 3.dp, end = 3.dp)
+                text = "Course Comment"
             )
         },
         bottomBar = {
@@ -96,12 +95,13 @@ fun CommentReviewContent(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .background(OpiniaGreyWhite)
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(32.dp))
 
             // Ders Bilgisi ve Kaydet Butonu
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -115,7 +115,8 @@ fun CommentReviewContent(
                             append(courseName)
                         }
                     },
-                    color = black
+                    color = black,
+                    modifier = Modifier.weight(1f)
                 )
 
                 IconButton(onClick = toggleSaveCourse) {
@@ -188,7 +189,8 @@ fun CommentReviewContent(
                 onCommentChange = onCommentChange,
                 onSubmitComment = onSubmitComment,
                 isLoading = isLoading,
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                isInputValid = comment.isNotBlank() && rating > 0,
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(32.dp))

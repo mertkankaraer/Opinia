@@ -52,7 +52,8 @@ fun BottomNavBar(navController: NavController) {
             iconFilled = R.drawable.book_ribbon_filled,
             relatedRoutes = listOf(
                 Destination.COURSE_CATALOG.route,
-                Destination.COURSE_DETAIL.route
+                Destination.COURSE_DETAIL.route,
+                Destination.COMMENT_REVIEW.route
             )
         ),
         BottomNavItem(
