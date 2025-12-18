@@ -134,7 +134,11 @@ fun ProfessorCard(instructor: Instructor) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        ProfessorInfoRow(icon = Icons.Outlined.AccountBox, text = "${instructor.instructorTitle} ${instructor.instructorName}", isBold = true)
+        ProfessorInfoRow(
+            icon = Icons.Outlined.AccountBox,
+            text = "${instructor.instructorTitle} ${instructor.instructorName}",
+            isBold = false // <--- BURAYI true YERİNE false YAP
+        )
         ProfessorInfoRow(icon = Icons.Outlined.Phone, text = instructor.phoneNumber ?: "N/A")
         ProfessorInfoRow(icon = Icons.Outlined.Email, text = instructor.instructorEmail)
     }

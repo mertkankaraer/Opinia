@@ -242,29 +242,41 @@ fun FacultyHeaderBox(text: String, isExpanded: Boolean, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
-            .background(OpiniaPurple)
+            .background(Color(0xFF9E9EE8)) // <--- 1. İSTEDİĞİN RENK BURADA
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start // Sola yasla
+        verticalAlignment = Alignment.CenterVertically
+        // horizontalArrangement silindi, alttaki weight işi hallediyor
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,
             color = black.copy(alpha = 0.8f),
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-            // modifier = Modifier.weight(1f) <-- BU SATIRI SİLDİK
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f) // <--- 2. BU OKU EN SAĞA İTER (Yorum satırını kaldırdık)
         )
 
-        Spacer(modifier = Modifier.width(8.dp)) // Yazı ile ok arasına minik boşluk
+        Spacer(modifier = Modifier.width(8.dp))
 
-        Icon(
-            imageVector = Icons.Default.ExpandCircleDown,
-            contentDescription = "Expand",
-            tint = OpiniaDeepBlue,
-            modifier = Modifier.size(24.dp).rotate(rotationState)
-        )
+        Box(contentAlignment = Alignment.Center) {
+            // 1. Arkadaki Beyaz Dolgu (İkondan küçük olsun ki kenardan taşmasın)
+            Box(
+                modifier = Modifier
+                    .size(14.dp) // 24dp yerine daha küçük yapıyoruz
+                    .background(Color.White, androidx.compose.foundation.shape.CircleShape)
+            )
+
+            // 2. Asıl İkon (Lacivert Çerçeve)
+            Icon(
+                imageVector = Icons.Default.ExpandCircleDown,
+                contentDescription = "Expand",
+                tint = OpiniaDeepBlue,
+                modifier = Modifier
+                    .size(24.dp)
+                    .rotate(rotationState)
+            )
+        }
     }
 }
 
