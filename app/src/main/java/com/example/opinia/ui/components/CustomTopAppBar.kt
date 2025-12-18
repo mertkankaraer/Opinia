@@ -20,11 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.opinia.R
 import com.example.opinia.ui.theme.OpiniaGreyWhite
+import com.example.opinia.ui.theme.OpinialightBlue
 import com.example.opinia.ui.theme.black
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ fun CustomTopAppBar(
                     modifier = modifier
                         .size(60.dp)
                         .clip(CircleShape)
-                        .background(Color.LightGray)
+                        .background(OpinialightBlue)
                         .clickable { onAvatarClick() }
                 )
             }
