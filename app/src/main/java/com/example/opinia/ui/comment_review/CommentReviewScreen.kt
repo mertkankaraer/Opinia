@@ -134,11 +134,7 @@ fun CommentReviewContent(
                 .background(OpiniaGreyWhite)
                 .padding(horizontal = 16.dp)
         ) {
-            Spacer(modifier = Modifier.height(12.dp))
-
-            HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
-
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Ders Bilgisi ve Kaydet Butonu
             Row(
