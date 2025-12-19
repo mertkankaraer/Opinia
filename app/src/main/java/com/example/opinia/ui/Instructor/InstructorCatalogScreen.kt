@@ -56,7 +56,8 @@ fun InstructorCatalogScreen(
         onToggleDepartments = { viewModel.toggleDepartments() },
         onDepartmentClicked = { deptId ->
             // Normal departman seçimi (düz giriş)
-            navController.navigate(Destination.INSTRUCTOR_LIST.route.replace("{departmentName}", deptId))
+            val baseRoute = Destination.INSTRUCTOR_LIST.route.substringBefore("?")
+            navController.navigate(baseRoute.replace("{departmentName}", deptId))
         },
         onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) }
     )
