@@ -20,6 +20,8 @@ import com.example.opinia.R
 import com.example.opinia.ui.theme.NunitoFontFamily
 import com.example.opinia.ui.theme.black
 import com.example.opinia.ui.theme.white
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun OpTopBar(
@@ -63,6 +65,7 @@ fun OpTopBar(
             modifier = Modifier
                 .size(60.dp) // Dashboard boyutu
                 .clip(CircleShape)
+                .background(Color(0xFFD1E1F3)) // <--- İŞTE İSTEDİĞİN RENK BURADA KANKA
                 .clickable { onAvatarClick() }
         )
     }
