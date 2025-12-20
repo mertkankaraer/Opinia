@@ -82,6 +82,26 @@ class CommentReviewRepository @Inject constructor(private val firestore: Firebas
         }
     }
 
+    //bir dersin en güncel yorumunu verir
+    suspend fun getLatestCommentsByCourseId(courseId: String, limit: Int = 1): Result<CommentReview?> {
+        return try {
+            val snapshot = firestore.collection(collectionName).whereEqualTo("courseId", courseId).orderBy("timestamp").limit(limit.toLong()).get().await()
+            if (snapshot.isEmpty) {
+                Log.d(TAG, "No comments found for the course")
+                return Result.success(null)
+            }
+            else {
+                val comments = snapshot.toObjects(CommentReview::class.java)
+                val latestComment = comments.firstOrNull()
+                Log.d(TAG, "Latest comment retrieved successfully")
+                Result.success(latestComment)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error retrieving latest comment", e)
+            Result.failure(e)
+        }
+    }
+
     //(gerekli olursa) yorumu siler
     suspend fun deleteComment(commentId: String): Result<Unit> {
         val uid = getCurrentUserId() ?: return Result.failure(Exception("User not logged in"))
