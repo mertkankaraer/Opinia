@@ -84,7 +84,7 @@ fun BottomNavBar(navController: NavController) {
     NavigationBar(
         modifier = Modifier
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .height(84.dp),
+            .height(92.dp),
         containerColor = OpiniaDeepBlue,
         contentColor = Color.White
     ) {

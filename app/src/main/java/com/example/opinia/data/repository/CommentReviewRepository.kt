@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.opinia.data.model.CommentReview
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -85,7 +86,7 @@ class CommentReviewRepository @Inject constructor(private val firestore: Firebas
     //bir dersin en güncel yorumunu verir
     suspend fun getLatestCommentsByCourseId(courseId: String, limit: Int = 1): Result<List<CommentReview>> {
         return try {
-            val snapshot = firestore.collection(collectionName).whereEqualTo("courseId", courseId).orderBy("timestamp").limit(limit.toLong()).get().await()
+            val snapshot = firestore.collection(collectionName).whereEqualTo("courseId", courseId).orderBy("timestamp", Query.Direction.DESCENDING).limit(limit.toLong()).get().await()
             if (snapshot.isEmpty) {
                 Log.d(TAG, "No comments found for the course")
                 return Result.success(emptyList())
