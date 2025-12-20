@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex // <-- Bu önemli, listeyi üstte tutar
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -25,6 +27,7 @@ import com.example.opinia.ui.component.BottomNavBar
 import com.example.opinia.ui.components.CustomTopAppBar
 import com.example.opinia.ui.search.GeneralSearchBar // <-- Yeni barımız
 import com.example.opinia.ui.search.SearchViewModel // <-- Yeni beynimiz
+import com.example.opinia.ui.theme.NunitoFontFamily
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.black
@@ -131,9 +134,12 @@ fun InstructorCatalogContent(
                 Text(
                     color = black,
                     text = "Faculties",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    fontFamily = NunitoFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp
                 )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 val displayText = uiState.selectedFaculty?.facultyName ?: "Faculty of Communication"
                 FacultyHeaderBox(
@@ -176,7 +182,7 @@ fun DepartmentItem(name: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp)
+            .height(56.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(com.example.opinia.ui.theme.OpiniaPurple)
             .clickable { onClick() }
