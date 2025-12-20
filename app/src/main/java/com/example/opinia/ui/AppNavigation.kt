@@ -155,30 +155,30 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 InstructorCatalogScreen(navController)
             }
 
-        composable(
-            route = Destination.INSTRUCTOR_LIST.route,
-            arguments = listOf(
-                navArgument("departmentName") { type = NavType.StringType },
-                // Yeni argüman tanımı:
-                navArgument("targetInstructorId") {
-                    type = NavType.StringType
-                    nullable = true
-                    defaultValue = null
-                }
+            composable(
+                route = Destination.INSTRUCTOR_LIST.route,
+                arguments = listOf(
+                    navArgument("departmentName") { type = NavType.StringType },
+                    // Yeni argüman tanımı:
+                    navArgument("targetInstructorId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    }
 
-            )
-        ) { backStackEntry ->
-            val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
-            // ID'yi alıyoruz:
-            val targetInstructorId = backStackEntry.arguments?.getString("targetInstructorId")
+                )
+            ) { backStackEntry ->
+                val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
+                // ID'yi alıyoruz:
+                val targetInstructorId = backStackEntry.arguments?.getString("targetInstructorId")
 
-            // Ekrana gönderiyoruz:
-            InstructorListScreen(
-                navController = navController,
-                departmentId = departmentId,
-                targetInstructorId = targetInstructorId
-            )
-        }
+                // Ekrana gönderiyoruz:
+                InstructorListScreen(
+                    navController = navController,
+                    departmentId = departmentId,
+                    targetInstructorId = targetInstructorId
+                )
+            }
 
             //yorum ekranına courseId vermeniz gerekiyor
             composable(
@@ -193,24 +193,25 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 val searchViewModel: SearchViewModel = hiltViewModel()
                 CommentReviewScreen(navController, commentReviewViewModel, searchViewModel)
             }
-        composable(Destination.COURSE_CATALOG.route) {
-            val courseCatalogViewModel: CourseCatalogViewModel = hiltViewModel()
-            val searchViewModel: SearchViewModel = hiltViewModel()
-            CourseCatalogScreen1(navController, courseCatalogViewModel, searchViewModel)
-        }
 
-        composable(
-            route = Destination.COURSE_DETAIL.route,
-            arguments = listOf(
-                navArgument("courseId") {
-                    type = NavType.StringType
-                }
-            )
-        ) {
-            val courseDetailViewModel: CourseDetailViewModel = hiltViewModel()
-            val searchViewModel: SearchViewModel = hiltViewModel()
-            CourseDetailScreen(navController, courseDetailViewModel, searchViewModel)
-        }
+            composable(Destination.COURSE_CATALOG.route) {
+                val courseCatalogViewModel: CourseCatalogViewModel = hiltViewModel()
+                val searchViewModel: SearchViewModel = hiltViewModel()
+                CourseCatalogScreen1(navController, courseCatalogViewModel, searchViewModel)
+            }
+
+            composable(
+                route = Destination.COURSE_DETAIL.route,
+                arguments = listOf(
+                    navArgument("courseId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                val courseDetailViewModel: CourseDetailViewModel = hiltViewModel()
+                val searchViewModel: SearchViewModel = hiltViewModel()
+                CourseDetailScreen(navController, courseDetailViewModel, searchViewModel)
+            }
         }
     )
 }
