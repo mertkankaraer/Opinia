@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.opinia.R
@@ -54,6 +55,7 @@ fun CustomCommentCard(
     modifier: Modifier = Modifier,
     isMyReview: Boolean = false,
     onDeleteClick: () -> Unit = {},
+    imageSize: Dp = 72.dp,
     containerColor: Color = OpinialightBlue
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -86,7 +88,7 @@ fun CustomCommentCard(
                     painter = painterResource(id = item.studentAvatarResId ?: R.drawable.ic_launcher_background),
                     contentDescription = "Avatar",
                     modifier = Modifier
-                        .size(72.dp)
+                        .size(imageSize)
                         .clip(CircleShape)
                         .background(OpiniaGreyWhite)
                 )
