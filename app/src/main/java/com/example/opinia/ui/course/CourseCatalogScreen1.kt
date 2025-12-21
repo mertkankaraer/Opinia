@@ -149,7 +149,7 @@ fun CourseCatalogContent1(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 4.dp)
+                                .clip(shape = MaterialTheme.shapes.extraLarge)
                                 .background(OpiniaPurple)
                                 .clickable {
                                     onFacultySelected(faculty)

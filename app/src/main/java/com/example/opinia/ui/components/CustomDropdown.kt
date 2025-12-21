@@ -91,7 +91,7 @@ fun <T> CustomDropdown(
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth(0.91f)
-                .background(OpiniaPurple),
+                .background(Color(0xFF9E9EE8)),
             shape = MaterialTheme.shapes.extraLarge
         ) {
             items.forEach { item ->
