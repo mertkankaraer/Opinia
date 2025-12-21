@@ -78,6 +78,7 @@ fun DashboardContent(
                     avatarResId = avatarResId,
                     onAvatarClick = onAvatarClick,
                     text = "Welcome, $studentName $studentSurname",
+                    textSize = 17
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))

@@ -35,6 +35,7 @@ fun CustomTopAppBar(
     avatarResId: Int,
     onAvatarClick: () -> Unit,
     text: String,
+    textSize: Int = 20,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -59,7 +60,7 @@ fun CustomTopAppBar(
                         color = black,
                         fontFamily = NunitoFontFamily,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = textSize.sp
                     )
                 }
 
