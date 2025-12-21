@@ -224,7 +224,7 @@ fun DashboardScreen(navController: NavController, viewModel: DashboardViewModel,
     }
 
     DashboardContent(
-        avatarResId = uiState.avatarResId ?: R.drawable.ic_launcher_background,
+        avatarResId = uiState.avatarResId ?: R.drawable.ic_launcher_foreground,
         onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) },
         studentName = uiState.studentName,
         studentSurname = uiState.studentSurname,
