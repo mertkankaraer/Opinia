@@ -1,5 +1,6 @@
 package com.example.opinia.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +46,7 @@ fun <T> CustomDropdown(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val rotationState by animateFloatAsState(targetValue = if (expanded) 180f else 0f, label = "Arrow")
 
     Box(
         modifier = Modifier
@@ -81,7 +82,7 @@ fun <T> CustomDropdown(
                         imageVector = Icons.Default.ExpandCircleDown,
                         contentDescription = "Expand",
                         tint = OpiniaDeepBlue,
-                        modifier = Modifier.rotate(if (expanded) 180f else 0f)
+                        modifier = Modifier.rotate(rotationState)
                     )
                 }
             }

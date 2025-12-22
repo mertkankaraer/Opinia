@@ -1,8 +1,10 @@
 package com.example.opinia.ui.components
 
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -143,7 +145,10 @@ fun CustomPopularCourseCard(
                 IconButton(
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                            pagerState.animateScrollToPage(
+                                page = pagerState.currentPage - 1,
+                                animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+                            )
                         }
                     },
                     modifier = Modifier
@@ -163,7 +168,10 @@ fun CustomPopularCourseCard(
                 IconButton(
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            pagerState.animateScrollToPage(
+                                page = pagerState.currentPage + 1,
+                                animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+                            )
                         }
                     },
                     modifier = Modifier
