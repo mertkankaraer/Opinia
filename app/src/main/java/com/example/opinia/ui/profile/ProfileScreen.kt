@@ -181,6 +181,7 @@ fun ProfileContent(
 
             Spacer(modifier = Modifier.height(28.dp))
 
+            /*
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -216,6 +217,7 @@ fun ProfileContent(
                     fontSize = 16
                 )
             }
+            */
 
             Spacer(modifier = Modifier.height(48.dp))
 

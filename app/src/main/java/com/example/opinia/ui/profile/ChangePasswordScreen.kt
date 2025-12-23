@@ -122,10 +122,10 @@ fun ChangePasswordContent(
             PasswordTextFieldInput(
                 oldPassword,
                 onOldPasswordChange,
-                backgroundColor = OpiniaDeepBlue,
-                textColor = OpinialightBlue,
-                iconColor = OpinialightBlue,
-                cursorColor = OpinialightBlue
+                backgroundColor = OpinialightBlue,
+                textColor = OpiniaDeepBlue,
+                iconColor = OpiniaDeepBlue,
+                cursorColor = OpiniaDeepBlue
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -143,10 +143,10 @@ fun ChangePasswordContent(
             PasswordTextFieldInput(
                 newPassword,
                 onNewPasswordChange,
-                backgroundColor = OpiniaDeepBlue,
-                textColor = OpinialightBlue,
-                iconColor = OpinialightBlue,
-                cursorColor = OpinialightBlue
+                backgroundColor = OpinialightBlue,
+                textColor = OpiniaDeepBlue,
+                iconColor = OpiniaDeepBlue,
+                cursorColor = OpiniaDeepBlue
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -164,10 +164,10 @@ fun ChangePasswordContent(
             PasswordTextFieldInput(
                 confirmPassword,
                 onConfirmPasswordChange,
-                backgroundColor = OpiniaDeepBlue,
-                textColor = OpinialightBlue,
-                iconColor = OpinialightBlue,
-                cursorColor = OpinialightBlue
+                backgroundColor = OpinialightBlue,
+                textColor = OpiniaDeepBlue,
+                iconColor = OpiniaDeepBlue,
+                cursorColor = OpiniaDeepBlue
             )
 
             Spacer(modifier = Modifier.height(84.dp))
