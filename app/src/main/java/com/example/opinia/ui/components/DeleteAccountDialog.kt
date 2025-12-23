@@ -1,6 +1,5 @@
 package com.example.opinia.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,8 +36,6 @@ import com.example.opinia.ui.theme.NunitoFontFamily
 import com.example.opinia.ui.theme.OpiniaPurple
 import com.example.opinia.ui.theme.WorkSansFontFamily
 import com.example.opinia.ui.theme.black
-import com.example.opinia.ui.theme.gray
-import com.example.opinia.ui.theme.outlineDark
 
 @Composable
 fun DeleteAccountDialog(
