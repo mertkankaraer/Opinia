@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -103,6 +105,9 @@ class AuthRepository @Inject constructor(private val auth: FirebaseAuth, private
 
     suspend fun updatePassword(currentPassword: String, newPassword: String): Result<Unit> {
         return try {
+            if (!networkManager.isInternetAvailable()) {
+                return Result.failure(Exception("No internet connection"))
+            }
             val user = auth.currentUser
             if (user == null) {
                 return Result.failure(Exception("User not authenticated"))
@@ -134,4 +139,65 @@ class AuthRepository @Inject constructor(private val auth: FirebaseAuth, private
         }
     }
 
+    suspend fun deleteAccount(password: String): Result<Unit> {
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser ?: return Result.failure(Exception("User not authenticated"))
+        val uid = user.uid
+
+        return try {
+            if (!networkManager.isInternetAvailable()) {
+                return Result.failure(Exception("No internet connection"))
+            }
+            val userEmail = user.email ?: return Result.failure(Exception("Email not found"))
+            val credential = EmailAuthProvider.getCredential(userEmail, password)
+            user.reauthenticate(credential).await()
+            //öğrencinin tüm yorumları
+            val reviewsSnapshot = db.collection("comments_review").whereEqualTo("studentId", uid).get().await()
+            db.runTransaction { transaction ->
+                //tüm okumalar
+                val uniqueCourseIds = reviewsSnapshot.documents.mapNotNull { it.getString("courseId") }.distinct()
+                val courseMap = mutableMapOf<String, DocumentSnapshot>()
+                for (cid in uniqueCourseIds) {
+                    val ref = db.collection("courses").document(cid)
+                    courseMap[cid] = transaction.get(ref)
+                }
+                //tüm yazmalar
+                for (reviewDoc in reviewsSnapshot.documents) {
+                    val courseId = reviewDoc.getString("courseId")
+                    val ratingToRemove = reviewDoc.getDouble("rating") ?: 0.0
+                    if (courseId != null && courseMap.containsKey(courseId)) {
+                        val courseSnapshot = courseMap[courseId]!!
+                        val courseRef = courseSnapshot.reference
+                        if (courseSnapshot.exists()) {
+                            val oldTotal = courseSnapshot.getLong("totalReviews") ?: 0
+                            val oldAverage = courseSnapshot.getDouble("averageRating") ?: 0.0
+                            if (oldTotal > 1) {
+                                val newTotal = oldTotal - 1
+                                val newAverage = ((oldAverage * oldTotal) - ratingToRemove) / newTotal
+                                transaction.update(courseRef, "totalReviews", newTotal)
+                                transaction.update(courseRef, "averageRating", newAverage)
+                            } else {
+                                transaction.update(courseRef, "totalReviews", 0)
+                                transaction.update(courseRef, "averageRating", 0.0)
+                            }
+                        }
+                    }
+                    transaction.delete(reviewDoc.reference)
+                }
+                val student = db.collection("students").document(uid)
+                transaction.delete(student)
+            }.await()
+            user.delete().await()
+            Log.d(TAG, "Account deleted successfully")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            val error = when(e) {
+                is FirebaseAuthInvalidCredentialsException -> "Invalid password"
+                else -> e.message ?: "Unknown error"
+            }
+            Log.e(TAG, "Account deletion failed: $error")
+            Result.failure(Exception(error))
+        }
+    }
 }

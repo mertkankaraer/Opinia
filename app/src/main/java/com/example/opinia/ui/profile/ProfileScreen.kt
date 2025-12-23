@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -24,8 +26,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -39,6 +45,7 @@ import com.example.opinia.R
 import com.example.opinia.ui.Destination
 import com.example.opinia.ui.component.BottomNavBar
 import com.example.opinia.ui.components.CustomButton
+import com.example.opinia.ui.components.DeleteAccountDialog
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.OpinialightBlue
@@ -53,6 +60,7 @@ fun ProfileContent(
     onChangeProfileClicked: () -> Unit,
     onChangePasswordClicked: () -> Unit,
     onSupportClicked: () -> Unit,
+    onDeleteClicked: (String) -> Unit,
     controller: NavController
 ) {
     Scaffold(
@@ -83,12 +91,15 @@ fun ProfileContent(
             BottomNavBar(navController = controller)
         }
     ) { innerPadding ->
+        val scrollState = rememberScrollState()
+        var showDeleteDialog by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(horizontal = 12.dp)
                 .fillMaxSize()
-                .background(OpiniaGreyWhite),
+                .background(OpiniaGreyWhite)
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -220,7 +231,32 @@ fun ProfileContent(
                     .width(180.dp)
             )
 
+            Spacer(modifier = Modifier.height(12.dp))
+
+            CustomButton(
+                onClick = { showDeleteDialog = true },
+                text = "Delete Account",
+                shape = MaterialTheme.shapes.medium,
+                textStyle = MaterialTheme.typography.titleMedium,
+                fontSize = 18,
+                containerColor = Color.Red.copy(alpha = 0.2f),
+                contentColor = OpiniaDeepBlue,
+                modifier = Modifier
+                    .height(42.dp)
+                    .width(180.dp)
+            )
+
             Spacer(modifier = Modifier.height(48.dp))
+
+            if (showDeleteDialog) {
+                DeleteAccountDialog(
+                    onDismiss = { showDeleteDialog = false },
+                    onConfirm = { password ->
+                        showDeleteDialog = false
+                        onDeleteClicked(password)
+                    }
+                )
+            }
         }
     }
 }
@@ -243,10 +279,19 @@ fun ProfileScreen(navController: NavController, profileViewModel: ProfileViewMod
     LaunchedEffect(key1 = true) {
         profileViewModel.uiEvent.collect { event ->
             when (event) {
-                is ProfileUiEvent.LogoutError -> {
-                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
-                }
                 is ProfileUiEvent.LogoutSuccess -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Destination.CHOOSE_LOGIN_OR_SIGNUP.route) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                }
+                is ProfileUiEvent.Error -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+                is ProfileUiEvent.DeleteSuccess -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                     navController.navigate(Destination.CHOOSE_LOGIN_OR_SIGNUP.route) {
                         popUpTo(0) {
                             inclusive = true
@@ -264,6 +309,9 @@ fun ProfileScreen(navController: NavController, profileViewModel: ProfileViewMod
         onChangeProfileClicked = { navController.navigate(Destination.STUDENT_CHANGE_AVATAR.route) },
         onChangePasswordClicked = { navController.navigate(Destination.STUDENT_CHANGE_PASSWORD.route) },
         onSupportClicked = { navController.navigate(Destination.SUPPORT.route) },
+        onDeleteClicked = { password ->
+            profileViewModel.onDeleteClicked(password)
+        },
         navController,
     )
 }
@@ -278,6 +326,7 @@ fun ProfileScreenPreview() {
         onChangeProfileClicked = {},
         onChangePasswordClicked = {},
         onSupportClicked = {},
+        onDeleteClicked = {},
         controller = NavController(LocalContext.current)
     )
 }

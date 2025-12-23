@@ -18,8 +18,9 @@ data class ProfileUiState (
 
 
 sealed class ProfileUiEvent {
-    data object LogoutSuccess: ProfileUiEvent()
-    data class LogoutError(val message: String): ProfileUiEvent()
+    data class DeleteSuccess(val message: String): ProfileUiEvent()
+    data class LogoutSuccess(val message: String): ProfileUiEvent()
+    data class Error(val message: String): ProfileUiEvent()
 }
 
 @HiltViewModel
@@ -39,9 +40,9 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
 
             try {
                 authRepository.logout()
-                _uiEvent.send(ProfileUiEvent.LogoutSuccess)
+                _uiEvent.send(ProfileUiEvent.LogoutSuccess("Logged out successfuly"))
             } catch (e: Exception) {
-                _uiEvent.send(ProfileUiEvent.LogoutError(e.message ?: "Could not log out"))
+                _uiEvent.send(ProfileUiEvent.Error("Could not log out"))
             }
             finally {
                 _uiState.update {
@@ -49,6 +50,19 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
                 }
             }
 
+        }
+    }
+
+    fun onDeleteClicked(password: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            val result = authRepository.deleteAccount(password)
+            result.onSuccess {
+                _uiEvent.send(ProfileUiEvent.DeleteSuccess("Account deleted successfully"))
+            }.onFailure { exception ->
+                _uiEvent.send(ProfileUiEvent.Error(exception.message ?: "Could not delete account"))
+            }
+            _uiState.update { it.copy(isLoading = false) }
         }
     }
 
