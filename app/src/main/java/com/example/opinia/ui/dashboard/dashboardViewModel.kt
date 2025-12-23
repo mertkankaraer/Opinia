@@ -8,8 +8,10 @@ import com.example.opinia.data.repository.AvatarProvider
 import com.example.opinia.data.repository.CommentReviewRepository
 import com.example.opinia.data.repository.CourseRepository
 import com.example.opinia.data.repository.StudentRepository
+import com.example.opinia.utils.NetworkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -47,7 +49,8 @@ class DashboardViewModel @Inject constructor(
     private val avatarProvider: AvatarProvider,
     private val courseRepository: CourseRepository,
     private val commentReviewRepository: CommentReviewRepository,
-    private val studentRepository: StudentRepository
+    private val studentRepository: StudentRepository,
+    private val networkManager: NetworkManager
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUistate())
@@ -59,6 +62,7 @@ class DashboardViewModel @Inject constructor(
     init {
         fetchStudentDetail()
         fetchPopularCourses()
+        fetchCurrentStudentCourses()
     }
 
     private fun fetchStudentDetail() {
@@ -70,13 +74,40 @@ class DashboardViewModel @Inject constructor(
                     val student = result.getOrNull()
                     if (student != null) {
                         val convertedId = avatarProvider.getAvatarResId(student.studentProfileAvatar)
-                        val enrolledCoursesResult = courseRepository.getCoursesByIds(student.enrolledCourseIds)
-                        val enrolledCourses = enrolledCoursesResult.getOrNull() ?: emptyList()
                         _uiState.update {
                             it.copy(
                                 studentName = student.studentName,
                                 studentSurname = student.studentSurname,
-                                avatarResId = convertedId,
+                                avatarResId = convertedId
+                            )
+                        }
+                    }
+                    else {
+                        _uiEvent.send(DashboardUiEvent.DashboardUiEventError("Failed to fetch student profile"))
+                    }
+                }
+                else {
+                    _uiEvent.send(DashboardUiEvent.DashboardUiEventError("Failed to fetch student profile"))
+                }
+            }
+            else {
+                _uiEvent.send(DashboardUiEvent.DashboardUiEventError("User not logged in"))
+            }
+        }
+    }
+
+    private fun fetchCurrentStudentCourses() {
+        viewModelScope.launch {
+            val uid = studentRepository.getCurrentUserId()
+            if (uid != null) {
+                val result = studentRepository.getStudentProfile()
+                if (result.isSuccess) {
+                    val student = result.getOrNull()
+                    if (student != null) {
+                        val enrolledCoursesResult = courseRepository.getCoursesByIds(student.enrolledCourseIds)
+                        val enrolledCourses = enrolledCoursesResult.getOrNull() ?: emptyList()
+                        _uiState.update {
+                            it.copy(
                                 CurrentStudentCourses = enrolledCourses
                             )
                         }
@@ -148,5 +179,21 @@ class DashboardViewModel @Inject constructor(
                 _uiEvent.send(DashboardUiEvent.DashboardUiEventError("Failed to fetch popular courses"))
             }
         }
+    }
+
+    suspend fun refreshComments() {
+        if (!networkManager.isInternetAvailable()) {
+            _uiEvent.send(DashboardUiEvent.DashboardUiEventError("No internet connection"))
+            return
+        }
+        _uiState.update {
+            it.copy(
+                courses = emptyList(),
+                CurrentStudentCourses = emptyList()
+            )
+        }
+        delay(500)
+        fetchPopularCourses()
+        fetchCurrentStudentCourses()
     }
 }

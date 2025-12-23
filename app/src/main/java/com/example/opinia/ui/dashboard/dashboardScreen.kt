@@ -17,11 +17,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +60,7 @@ import com.example.opinia.ui.theme.OpiniaPurple
 import com.example.opinia.ui.theme.OpinialightBlue
 import com.example.opinia.ui.theme.WorkSansFontFamily
 import com.example.opinia.ui.theme.black
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,10 +72,14 @@ fun DashboardContent(
     controller: NavController,
     popularCourses: List<PopularCourseAndComment> = emptyList(),
     currentStudentCourses: List<Course> = emptyList(),
+    onRefresh: suspend () -> Unit = {},
     searchViewModel: SearchViewModel? = null
 ) {
     val isPreview = LocalInspectionMode.current
     val scrollState = rememberScrollState()
+    var isRefreshing by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val pullToRefreshState = rememberPullToRefreshState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -117,81 +129,105 @@ fun DashboardContent(
             BottomNavBar(navController = controller)
         }
     ) { innerPadding ->
-        Column(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                scope.launch {
+                    isRefreshing = true
+                    onRefresh()
+                    isRefreshing = false
+                }
+            },
+            state = pullToRefreshState,
+            indicator = {
+                Indicator(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    isRefreshing = isRefreshing,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    state = pullToRefreshState
+                )
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
                 .background(OpiniaGreyWhite)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(scrollState)
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
-
-            if(popularCourses.isEmpty()) {
-                Text("No popular courses found", color = black.copy(alpha = 0.6f))
-            }
-            else {
-                CustomPopularCourseCard(
-                    Courses = popularCourses,
-                    onCourseClick = { courseId ->
-                        controller.navigate(Destination.COURSE_DETAIL.route.replace("{courseId}", courseId))
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.extraLarge)
-                    .background(OpiniaPurple)
-                    .padding(12.dp),
-                horizontalAlignment = Alignment.Start
-            ){
-                Text(
-                    text = "My Courses",
-                    color = black,
-                    fontFamily = NunitoFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
+                    .fillMaxSize()
+                    .background(OpiniaGreyWhite)
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(scrollState)
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
 
-                Spacer(modifier = Modifier.height(10.dp))
-
-                if (currentStudentCourses.isEmpty()) {
-                    Text(
-                        text = "No courses found",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = black.copy(alpha = 0.6f)
+                if(popularCourses.isEmpty()) {
+                    Text("No popular courses found", color = black.copy(alpha = 0.6f))
+                }
+                else {
+                    CustomPopularCourseCard(
+                        Courses = popularCourses,
+                        onCourseClick = { courseId ->
+                            controller.navigate(Destination.COURSE_DETAIL.route.replace("{courseId}", courseId))
+                        }
                     )
-                } else {
-                    currentStudentCourses.forEach { course ->
-                        TextButton(
-                            onClick = {
-                                controller.navigate(Destination.COURSE_DETAIL.route.replace("{courseId}", course.courseId))
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text(
-                                text = buildAnnotatedString {
-                                    withStyle(style = SpanStyle(fontFamily = WorkSansFontFamily, fontWeight = FontWeight.Normal, fontSize = 15.sp)) {
-                                        append(course.courseCode)
-                                    }
-                                    append(" - ")
-                                    withStyle(style = SpanStyle(fontFamily = WorkSansFontFamily, fontWeight = FontWeight.Normal, fontSize = 15.sp)) {
-                                        append(course.courseName)
-                                    }
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.extraLarge)
+                        .background(OpiniaPurple)
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.Start
+                ){
+                    Text(
+                        text = "My Courses",
+                        color = black,
+                        fontFamily = NunitoFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    if (currentStudentCourses.isEmpty()) {
+                        Text(
+                            text = "No courses found",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = black.copy(alpha = 0.6f)
+                        )
+                    } else {
+                        currentStudentCourses.forEach { course ->
+                            TextButton(
+                                onClick = {
+                                    controller.navigate(Destination.COURSE_DETAIL.route.replace("{courseId}", course.courseId))
                                 },
-                                color = black,
-                                modifier = Modifier.weight(1f)
-                            )
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        withStyle(style = SpanStyle(fontFamily = WorkSansFontFamily, fontWeight = FontWeight.Normal, fontSize = 15.sp)) {
+                                            append(course.courseCode)
+                                        }
+                                        append(" - ")
+                                        withStyle(style = SpanStyle(fontFamily = WorkSansFontFamily, fontWeight = FontWeight.Normal, fontSize = 15.sp)) {
+                                            append(course.courseName)
+                                        }
+                                    },
+                                    color = black,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(80.dp))
             }
-            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
@@ -232,6 +268,7 @@ fun DashboardScreen(navController: NavController, viewModel: DashboardViewModel,
         controller = navController,
         popularCourses = uiState.courses,
         currentStudentCourses = uiState.CurrentStudentCourses,
+        onRefresh = viewModel::refreshComments,
         searchViewModel = searchViewModel
     )
 
@@ -252,6 +289,8 @@ fun DashboardScreenPreview() {
         studentName = "Ali",
         studentSurname = "Veli",
         controller = rememberNavController(),
+        popularCourses = emptyList(),
+        onRefresh = {},
         currentStudentCourses = dummyCourses
     )
 
