@@ -5,7 +5,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -84,7 +84,7 @@ fun BottomNavBar(navController: NavController) {
     NavigationBar(
         modifier = Modifier
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .height(92.dp),
+            .heightIn(min = 92.dp),
         containerColor = OpiniaDeepBlue,
         contentColor = Color.White
     ) {
