@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +54,9 @@ fun SignupStudentAcademicContent(
     onYearSelected: (String) -> Unit,
     onNextClick: () -> Unit
 ) {
+
+    val scrollState = rememberScrollState()
+
     val yearList = listOf(
         "1st Semester",
         "2st Semester",
@@ -68,7 +73,8 @@ fun SignupStudentAcademicContent(
         modifier = Modifier
             .fillMaxSize()
             .background(OpiniaDeepBlue)
-            .padding(horizontal = 12.dp),
+            .padding(horizontal = 12.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
