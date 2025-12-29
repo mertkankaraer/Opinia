@@ -203,7 +203,7 @@ fun AddCourse1Content(
                     modifier = Modifier
                         .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 8.dp)
+                    contentPadding = PaddingValues(bottom = 24.dp)
                 ) {
                     items(availableDepartments) { department ->
                         Row(
@@ -228,7 +228,7 @@ fun AddCourse1Content(
                     if (availableDepartments.isEmpty()) {
                         item {
                             Text(
-                                text = "No departments found or loading...",
+                                text = "No departments found.",
                                 modifier = Modifier.padding(16.dp),
                                 color = gray
                             )

@@ -162,7 +162,7 @@ fun DashboardContent(
                     .padding(horizontal = 16.dp)
                     .verticalScroll(scrollState)
             ) {
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 if(popularCourses.isEmpty()) {
                     Text("No popular courses found", color = black.copy(alpha = 0.6f))
@@ -176,7 +176,7 @@ fun DashboardContent(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 Column(
                     modifier = Modifier
@@ -231,7 +231,7 @@ fun DashboardContent(
                     }
                     Spacer(modifier = Modifier.height(3.dp))
                 }
-                Spacer(modifier = Modifier.height(80.dp))
+                Spacer(modifier = Modifier.height(40.dp))
             }
         }
     }

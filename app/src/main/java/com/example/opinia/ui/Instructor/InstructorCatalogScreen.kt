@@ -145,7 +145,7 @@ fun InstructorCatalogContent(
                     fontFamily = NunitoFontFamily,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
 
                 LazyColumn(
