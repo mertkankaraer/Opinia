@@ -29,8 +29,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import com.example.opinia.R
@@ -38,6 +40,7 @@ import com.example.opinia.data.model.Avatar
 import com.example.opinia.ui.component.BottomNavBar
 import com.example.opinia.ui.components.AvatarChooseBox
 import com.example.opinia.ui.components.CustomButton
+import com.example.opinia.ui.theme.NunitoFontFamily
 import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.OpinialightBlue
@@ -59,7 +62,7 @@ fun ChangeAvatarContent(
             CenterAlignedTopAppBar(
                 title = {
                     Image(
-                        painter = painterResource(id = R.drawable.yeni_lacivert_logo),
+                        painter = painterResource(id = R.drawable.yeni_koyu_amblem),
                         contentDescription = "Logo",
                         modifier = Modifier
                             .width(210.dp)
@@ -89,7 +92,13 @@ fun ChangeAvatarContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Change Your Profile", style = MaterialTheme.typography.titleMedium, color = OpiniaDeepBlue)
+            Text(
+                text = "Change Your Profile",
+                color = OpiniaDeepBlue,
+                fontFamily = NunitoFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+            )
 
             Spacer(modifier = Modifier.height(48.dp))
 

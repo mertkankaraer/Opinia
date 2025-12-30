@@ -69,7 +69,7 @@ fun SupportContent(
             CenterAlignedTopAppBar(
                 title = {
                     Image(
-                        painter = painterResource(id = R.drawable.yeni_lacivert_logo),
+                        painter = painterResource(id = R.drawable.yeni_koyu_amblem),
                         contentDescription = "Logo",
                         modifier = Modifier
                             .width(210.dp)

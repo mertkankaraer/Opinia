@@ -1,5 +1,6 @@
 package com.example.opinia.ui.search
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -86,15 +88,21 @@ fun GeneralSearchBarContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .focusRequester(focusRequester),
+                    .focusRequester(focusRequester)
+                    .border(
+                        width = 2.dp,
+                        color = OpinialightBlue,
+                        shape = MaterialTheme.shapes.extraLarge
+                    ),
                 shape = MaterialTheme.shapes.extraLarge,
+
                 placeholder = {
                     Text(
-                        text = "Search",
+                        text = "search",
                         fontFamily = NunitoFontFamily,
                         fontWeight = FontWeight.Normal,
                         fontSize = 15.sp,
-                        color = black
+                        color = Color(0xFF1E2223)
                     )
                 },
                 leadingIcon = {
@@ -120,15 +128,14 @@ fun GeneralSearchBarContent(
                     }
                 },
                 colors = TextFieldDefaults.colors(
-                    focusedTextColor = black,
-                    unfocusedTextColor = black,
-                    focusedContainerColor = OpinialightBlue,
-                    unfocusedContainerColor = OpinialightBlue,
-                    disabledContainerColor = OpinialightBlue,
+                    focusedTextColor = OpiniaDeepBlue,
+                    unfocusedTextColor = OpiniaDeepBlue,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
                     cursorColor = OpiniaDeepBlue,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = OpiniaDeepBlue,
+                    unfocusedIndicatorColor = OpinialightBlue,
+                    disabledIndicatorColor = Color.LightGray
                 ),
                 singleLine = true,
                 enabled = true,
@@ -196,6 +203,14 @@ fun GeneralSearchBarContent(
                                     color = black
                                 )
                             }
+
+                            HorizontalDivider(
+                                thickness = 1.dp,
+                                color = Color(0XFFF5F5F5),
+                                modifier = Modifier
+                                    .padding(horizontal = 12.dp)
+                                    .fillMaxWidth()
+                            )
                         }
                     }
 

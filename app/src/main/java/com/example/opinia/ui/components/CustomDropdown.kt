@@ -67,7 +67,7 @@ fun <T> CustomDropdown(
             ) {
                 Text(
                     text = if(selectedItem != null) itemLabel(selectedItem) else placeholder,
-                    color = if (selectedItem != null) black else gray,
+                    color = if (selectedItem != null) Color(0xFF1E2223) else Color(0xFF1E2223).copy(0.8f),
                     fontFamily = WorkSansFontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 15.sp
@@ -97,7 +97,7 @@ fun <T> CustomDropdown(
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(text = itemLabel(item), color = black) },
+                    text = { Text(text = itemLabel(item), color = Color(0xFF1E2223)) },
                     onClick = {
                         onItemSelected(item)
                         expanded = false

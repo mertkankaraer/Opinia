@@ -132,7 +132,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
 
             composable(Destination.STUDENT_SAVED_COURSES.route) {
                 val savedCoursesViewModel: SavedCoursesViewModel = hiltViewModel()
-                SavedCoursesScreen(navController, savedCoursesViewModel)
+                val searchViewModel: SearchViewModel = hiltViewModel()
+                SavedCoursesScreen(navController, savedCoursesViewModel, searchViewModel)
             }
 
             composable(Destination.STUDENT_ADD_COURSE1.route) {
