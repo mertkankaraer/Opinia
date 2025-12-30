@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,7 +46,6 @@ import com.example.opinia.ui.theme.OpiniaDeepBlue
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.OpinialightBlue
 import com.example.opinia.ui.theme.WorkSansFontFamily
-import com.example.opinia.ui.theme.black
 
 @Composable
 fun CustomCommentCard(
@@ -63,6 +61,14 @@ fun CustomCommentCard(
     val commentText = item.comment.comment
     val shouldShowMore = commentText.length > maxChars
     val formattedDate = item.comment.formattedDate
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    if (showDeleteDialog) {
+        DeleteCommentDialog(
+            onDismiss = { showDeleteDialog = false },
+            onConfirm = onDeleteClick
+        )
+    }
 
     Card(
         colors = CardDefaults.cardColors(containerColor = containerColor),
@@ -100,7 +106,7 @@ fun CustomCommentCard(
                     fontFamily = WorkSansFontFamily,
                     fontWeight = FontWeight.Medium,
                     fontSize = 8.sp,
-                    color = black,
+                    color = Color(0xFF1E2223),
                     textAlign = TextAlign.Center
                 )
             }
@@ -118,19 +124,19 @@ fun CustomCommentCard(
                             fontFamily = WorkSansFontFamily,
                             fontWeight = FontWeight.Medium,
                             fontSize = 8.sp,
-                            color = Color.DarkGray
+                            color = Color(0xFF1E2223)
                         )
                         if (isMyReview) {
                             Spacer(modifier = Modifier.width(8.dp))
                             IconButton(
-                                onClick = onDeleteClick,
+                                onClick = { showDeleteDialog = true },
                                 modifier = Modifier.size(24.dp)
                             ) {
                                 Icon(
-                                    imageVector = if(onDeleteClick != null) Icons.Outlined.Delete else Icons.Filled.Delete,
+                                    imageVector = Icons.Outlined.Delete,
                                     contentDescription = "Delete Review",
                                     tint = Color.Red,
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(36.dp)
                                 )
                             }
                         }
@@ -142,7 +148,7 @@ fun CustomCommentCard(
                             fontFamily = WorkSansFontFamily,
                             fontWeight = FontWeight.Normal,
                             fontSize = 16.sp,
-                            color = black,
+                            color = Color(0xFF1E2223),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -166,7 +172,7 @@ fun CustomCommentCard(
                     fontFamily = WorkSansFontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 13.sp,
-                    color = Color(0xFF333333),
+                    color = Color(0xFF1E2223),
                     lineHeight = 18.sp
                 )
 
