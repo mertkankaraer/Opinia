@@ -22,7 +22,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,7 +67,7 @@ fun ProfileContent(
             CenterAlignedTopAppBar(
                 title = {
                     Image(
-                        painter = painterResource(id = R.drawable.yeni_lacivert_logo),
+                        painter = painterResource(id = R.drawable.yeni_koyu_amblem),
                         contentDescription = "Logo",
                         modifier = Modifier
                             .width(210.dp)
@@ -136,7 +135,7 @@ fun ProfileContent(
 
             CustomButton(
                 onClick = { onChangeProfileClicked() },
-                text = "Change Avatar Picture",
+                text = "Change Profile Photo",
                 shape = MaterialTheme.shapes.extraLarge,
                 textStyle = MaterialTheme.typography.titleSmall,
                 containerColor = OpiniaDeepBlue,

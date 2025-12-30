@@ -243,7 +243,11 @@ fun AddCourse1Content(
 }
 
 @Composable
-fun AddCourse1Screen(navController: NavController, addCourseViewModel: AddCourseViewModel, searchViewModel: SearchViewModel) {
+fun AddCourse1Screen(
+    navController: NavController,
+    addCourseViewModel: AddCourseViewModel,
+    searchViewModel: SearchViewModel
+) {
 
     val uiState = addCourseViewModel.uiState.collectAsState().value
     val context = LocalContext.current
@@ -292,8 +296,6 @@ fun AddCourse1Screen(navController: NavController, addCourseViewModel: AddCourse
             avatarResId = uiState.avatarResId ?: R.drawable.turuncu,
             onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) },
             controller = navController,
-            query = uiState.searchQuery,
-            onQueryChange = addCourseViewModel::onSearchQueryChanged,
             departmentName = uiState.selectedDepartment?.departmentName ?: "",
             courses = uiState.availableCourses,
             onBackClick = { addCourseViewModel.onBackToSelection() },
@@ -304,7 +306,8 @@ fun AddCourse1Screen(navController: NavController, addCourseViewModel: AddCourse
                 } else {
                     addCourseViewModel.onAddCourseClicked(course)
                 }
-            }
+            },
+            searchViewModel = searchViewModel
         )
     }
 

@@ -168,6 +168,8 @@ class AddCourseViewModel @Inject constructor(
         }
     }
 
+    /*
+    EĞER ESKİ SEARCHBAR GEREKİRSE KULLAN
     fun onSearchQueryChanged(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
         val currentStep = _uiState.value.step
@@ -194,6 +196,7 @@ class AddCourseViewModel @Inject constructor(
             }
         }
     }
+    */
 
     fun onAddCourseClicked(course: Course) {
         viewModelScope.launch {

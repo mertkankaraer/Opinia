@@ -111,6 +111,8 @@ class SavedCoursesViewModel @Inject constructor(
         _uiEvent.send(SavedCoursesUiEvent.ErrorLoadingCourses(errorMsg))
     }
 
+    /*
+    EĞER ESKİ SEARCHBAR KULLANILACAKSA BUNU KULLAN
     fun onSearchQueryChanged(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
         if (query.isBlank()) {
@@ -123,6 +125,7 @@ class SavedCoursesViewModel @Inject constructor(
             _uiState.update { it.copy(savedCourses = filteredList) }
         }
     }
+    */
 
     fun onToggleSaveCourse(courseId: String) {
         viewModelScope.launch {
