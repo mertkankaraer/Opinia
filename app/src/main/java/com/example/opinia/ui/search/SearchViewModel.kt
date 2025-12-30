@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
     fun onQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query, isSearching = query.isNotEmpty()) }
         searchJob?.cancel()
-        if (query.length >= 3) {
+        if (query.isNotEmpty()) {
             searchJob = viewModelScope.launch {
                 delay(300L)
                 performSearch(query)
