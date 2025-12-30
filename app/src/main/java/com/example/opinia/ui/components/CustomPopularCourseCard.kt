@@ -65,151 +65,160 @@ fun CustomPopularCourseCard(
             .background(OpiniaPurple),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                contentPadding = PaddingValues(0.dp),
-                pageSpacing = 16.dp,
-                modifier = Modifier.fillMaxWidth(),
-                flingBehavior = PagerDefaults.flingBehavior(
+        if (Courses.isEmpty()) {
+            Text(
+                text = "No popular courses found.",
+                color = Color.Gray,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                HorizontalPager(
                     state = pagerState,
-                    snapAnimationSpec = spring(stiffness = Spring.StiffnessLow)
-                )
-            ) { pageIndex ->
-                val course = popularCourses[pageIndex]
+                    contentPadding = PaddingValues(0.dp),
+                    pageSpacing = 16.dp,
+                    modifier = Modifier.fillMaxWidth(),
+                    flingBehavior = PagerDefaults.flingBehavior(
+                        state = pagerState,
+                        snapAnimationSpec = spring(stiffness = Spring.StiffnessLow)
+                    )
+                ) { pageIndex ->
+                    val course = popularCourses[pageIndex]
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        // 1. Ders Başlığı
-                        Column(
-                            modifier = Modifier.weight(1f).clickable(onClick = {
-                                onCourseClick(course.Course.courseId)
-                            })
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = course.Course.courseCode,
-                                color = black,
-                                fontFamily = NunitoFontFamily,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 15.sp
-                            )
-                            Text(
-                                text = course.Course.courseName,
-                                color = black,
-                                fontFamily = NunitoFontFamily,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 15.sp
+                            // 1. Ders Başlığı
+                            Column(
+                                modifier = Modifier.weight(1f).clickable(onClick = {
+                                    onCourseClick(course.Course.courseId)
+                                })
+                            ) {
+                                Text(
+                                    text = course.Course.courseCode,
+                                    color = black,
+                                    fontFamily = NunitoFontFamily,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 15.sp
+                                )
+                                Text(
+                                    text = course.Course.courseName,
+                                    color = black,
+                                    fontFamily = NunitoFontFamily,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 15.sp
+                                )
+                            }
+
+                            // 2. Rating Bar
+                            RatingBar(
+                                rating = course.CourseAverageRating.toInt()
                             )
                         }
 
-                        // 2. Rating Bar
-                        RatingBar(
-                            rating = course.CourseAverageRating.toInt()
+                        // 3. Yorum Kartı
+                        val item = CommentAndStudent(
+                            comment = course.LatestComment,
+                            studentName = course.CommenterName,
+                            studentSurname = course.CommenterSurname,
+                            studentYear = course.CommenterYear,
+                            studentAvatarResId = course.CommenterAvatarResId
+                        )
+
+                        CustomCommentCard(
+                            item = item,
+                            isMyReview = false,
+                            containerColor = OpiniaPurple,
+                            imageSize = 64.dp
                         )
                     }
+                }
 
-                    // 3. Yorum Kartı
-                    val item = CommentAndStudent(
-                        comment = course.LatestComment,
-                        studentName = course.CommenterName,
-                        studentSurname = course.CommenterSurname,
-                        studentYear = course.CommenterYear,
-                        studentAvatarResId = course.CommenterAvatarResId
-                    )
+                if (pagerState.currentPage > 0) {
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(
+                                    page = pagerState.currentPage - 1,
+                                    animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 8.dp)
+                            .size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "Previous",
+                            tint = Color(0xFF2F4874)
+                        )
+                    }
+                }
 
-                    CustomCommentCard(
-                        item = item,
-                        isMyReview = false,
-                        containerColor = OpiniaPurple,
-                        imageSize = 64.dp
-                    )
+                if (pagerState.currentPage < popularCourses.size - 1) {
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(
+                                    page = pagerState.currentPage + 1,
+                                    animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .padding(end = 8.dp)
+                            .size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "Next",
+                            tint = Color(0xFF2F4874)
+                        )
+                    }
                 }
             }
 
-            if (pagerState.currentPage > 0) {
-                IconButton(
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(
-                                page = pagerState.currentPage - 1,
-                                animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 8.dp)
-                        .size(36.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = "Previous",
-                        tint = Color(0xFF2F4874)
+            Row(
+                modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(popularCourses.size) { iteration ->
+                    val isSelected = pagerState.currentPage == iteration
+
+                    val size by animateDpAsState(
+                        targetValue = if (isSelected) 8.dp else 5.dp,
+                        label = "indicatorSize"
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF2F4874))
+                            .size(size)
                     )
                 }
-            }
-
-            if (pagerState.currentPage < popularCourses.size - 1) {
-                IconButton(
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(
-                                page = pagerState.currentPage + 1,
-                                animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 8.dp)
-                        .size(36.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "Next",
-                        tint = Color(0xFF2F4874)
-                    )
-                }
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .height(20.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            repeat(popularCourses.size) { iteration ->
-                val isSelected = pagerState.currentPage == iteration
-
-                val size by animateDpAsState(
-                    targetValue = if (isSelected) 8.dp else 5.dp,
-                    label = "indicatorSize"
-                )
-
-                Box(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFF2F4874))
-                        .size(size)
-                )
             }
         }
     }

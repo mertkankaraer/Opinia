@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalView
@@ -186,7 +187,7 @@ fun DashboardContent(
                             .background(OpiniaPurple)
                             .padding(12.dp),
                         horizontalAlignment = Alignment.Start
-                    ){
+                    ) {
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
@@ -202,11 +203,12 @@ fun DashboardContent(
 
                         if (currentStudentCourses.isEmpty()) {
                             Text(
-                                text = "No courses found",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = black.copy(alpha = 0.6f)
+                                text = "No courses found.",
+                                color = Color.Gray,
+                                modifier = Modifier.padding(16.dp)
                             )
-                        } else {
+                        }
+                        else {
                             currentStudentCourses.forEach { course ->
                                 TextButton(
                                     onClick = {
@@ -229,8 +231,9 @@ fun DashboardContent(
                                     )
                                 }
                             }
+
+                            Spacer(modifier = Modifier.height(3.dp))
                         }
-                        Spacer(modifier = Modifier.height(3.dp))
                     }
                     Spacer(modifier = Modifier.height(40.dp))
                 }
