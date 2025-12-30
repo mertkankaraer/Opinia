@@ -1,14 +1,14 @@
 package com.example.opinia.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.opinia.R
 
 @Composable
 fun RatingBar(rating: Int, maxRating: Int = 3, modifier: Modifier = Modifier) {
@@ -17,11 +17,10 @@ fun RatingBar(rating: Int, maxRating: Int = 3, modifier: Modifier = Modifier) {
     ) {
         repeat(maxRating) { index ->
             val isSelected = index < rating
-            Icon(
-                imageVector = if (isSelected) Icons.Filled.Star else Icons.Default.StarBorder,
+            Image(
+                painter = painterResource(id = if (isSelected) R.drawable.kid_star_filled else R.drawable.kid_star),
                 contentDescription = "$index Star",
-                tint = Color(0xFFF9A75D), //yellow,
-                modifier = modifier
+                modifier = modifier.size(16.dp),
             )
         }
     }

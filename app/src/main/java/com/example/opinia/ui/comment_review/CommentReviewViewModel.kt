@@ -114,11 +114,11 @@ class CommentReviewViewModel @Inject constructor(
     }
 
     fun onCommentChanged(comment: String) {
-        if (comment.length <= 500) {
+        if (comment.trim().length <= 500) {
             _uiState.update { it.copy(comment = comment) }
         }
         else {
-            val trimmedComment = comment.substring(0, 500)
+            val trimmedComment = comment.trim().substring(0, 500)
             _uiState.update { it.copy(comment = trimmedComment) }
         }
     }
@@ -160,7 +160,7 @@ class CommentReviewViewModel @Inject constructor(
             val newCommentReview = CommentReview(
                 courseId = courseId,
                 rating = state.rating,
-                comment = state.comment
+                comment = state.comment.trim()
             )
             val result = commentReviewRepository.createCommentReview(newCommentReview)
             _uiState.update { it.copy(isLoading = false) }

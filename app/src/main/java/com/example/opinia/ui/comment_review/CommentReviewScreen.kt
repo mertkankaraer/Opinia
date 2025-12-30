@@ -19,8 +19,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -196,7 +196,7 @@ fun CommentReviewContent(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
-                                imageVector = if(rating == 0) Icons.Filled.StarBorder else Icons.Filled.Star,
+                                imageVector = if(rating == 0) Icons.Rounded.StarBorder else Icons.Rounded.Star,
                                 contentDescription = "Star",
                                 tint = black,
                                 modifier = Modifier.size(24.dp)
@@ -223,7 +223,7 @@ fun CommentReviewContent(
                         for (i in 1..3) {
                             val isSelected = i <= rating
                             Icon(
-                                imageVector = if (isSelected) Icons.Filled.Star else Icons.Default.StarBorder,
+                                imageVector = if (isSelected) Icons.Rounded.Star else Icons.Rounded.StarBorder,
                                 contentDescription = "$i Star",
                                 tint = Color(0xFFF9A75D), //yellow
                                 modifier = Modifier
