@@ -81,7 +81,7 @@ fun LoginScreenContent(
 
         Column(modifier = Modifier.width(IntrinsicSize.Max)) {
 
-            PasswordTextFieldInput(value = passwordValue, onValueChange = onPasswordChange)
+            PasswordTextFieldInput(value = passwordValue, onValueChange = onPasswordChange, isPasswordDummy = true)
 
             TextButton(
                 onClick = onForgotPasswordClick,

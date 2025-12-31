@@ -75,7 +75,14 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
             return Result.failure(Exception("Please enter a valid student email"))
         }
         if (!validatePassword(password)) {
-            val errorMsg = "Password must be 8+ chars, 1 number, 1 uppercase, 1 lowercase & no spaces."
+            val errorMsg = """
+                Password requirements:
+                • At least 8 characters
+                • At least 1 number
+                • At least 1 uppercase letter
+                • At least 1 lowercase letter
+                • No spaces allowed
+            """.trimIndent()
             return Result.failure(Exception(errorMsg))
         }
         return authRepository.login(email, password)

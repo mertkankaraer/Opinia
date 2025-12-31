@@ -218,12 +218,31 @@ class RegisterViewModel @Inject constructor(
             sendErrorEvent("Please fill in all fields")
             return false
         }
+        if (state.name.length < 2 || state.surname.length < 2) {
+            sendErrorEvent("Name and surname must be at least 2 characters long")
+            return false
+        }
+        if (state.name.contains(Regex("[0-9]")) || state.surname.contains(Regex("[0-9]"))) {
+            sendErrorEvent("Name and surname cannot contain numbers")
+            return false
+        }
+        if (state.selectedAvatarId.isEmpty()) {
+            sendErrorEvent("Please select an avatar by clicking the icon above")
+            return false
+        }
         if (!validateStudentEmail(state.email)) {
             sendErrorEvent("Please enter a valid student email")
             return false
         }
         if (!validatePassword(state.password)) {
-            val errorMsg = "Password must be 8+ chars, 1 number, 1 uppercase, 1 lowercase & no spaces."
+            val errorMsg = """
+                Password requirements:
+                • At least 8 characters
+                • At least 1 number
+                • At least 1 uppercase letter
+                • At least 1 lowercase letter
+                • No spaces allowed
+            """.trimIndent()
             sendErrorEvent(errorMsg)
             return false
         }
@@ -337,14 +356,18 @@ class RegisterViewModel @Inject constructor(
             val newStudent = Student(
                 studentId = uid,
                 studentEmail = state.email.trim(),
-                studentName = state.name.trim(),
-                studentSurname = state.surname.trim(),
+                studentName = state.name.trim().lowercase().split(" ").joinToString(" ") { word ->
+                    word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+                },
+                studentSurname = state.surname.trim().lowercase().split(" ").joinToString(" ") { word ->
+                    word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+                },
                 studentYear = state.selectedStdYear,
                 facultyID = state.selectedFaculty?.facultyId ?: "",
                 departmentID = state.selectedDepartment?.departmentId ?: "",
                 studentProfileAvatar = state.selectedAvatarId,
-                enrolledCourseIds = state.selectedCourses.map { it.courseId }, // Sadece ID'leri kaydediyoruz
-                savedCourseIds = emptyList() // Başlangıçta boş bir liste
+                enrolledCourseIds = state.selectedCourses.map { it.courseId },
+                savedCourseIds = emptyList()
             )
             val dbResult = studentRepository.createStudent(newStudent)
             if (dbResult.isSuccess) {
