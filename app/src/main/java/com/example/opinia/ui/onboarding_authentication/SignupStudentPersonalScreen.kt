@@ -130,7 +130,7 @@ fun SignupStudentPersonalContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Student Name",
@@ -198,9 +198,9 @@ fun SignupStudentPersonalContent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        PasswordTextFieldInput(value = passwordDummyValue, onValueChange = onPasswordDummyChange)
+        PasswordTextFieldInput(value = passwordDummyValue, onValueChange = onPasswordDummyChange, isPasswordDummy = true)
 
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.height(48.dp))
 
         CustomButton(
             onClick = onNextClick,

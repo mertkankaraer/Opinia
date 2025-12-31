@@ -16,16 +16,17 @@ import com.example.opinia.ui.theme.WorkSansFontFamily
 import com.example.opinia.ui.theme.black
 
 @Composable
-fun DeleteCommentDialog(
+fun AreYouSureDialog(
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit
+    onConfirm: () -> Unit,
+    infoText: String
 ) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
         containerColor = OpiniaPurple,
         title = {
             Text(
-                text = "Are you sure you want to delete your comment?",
+                text = "Are you sure you want to delete your ${infoText}?",
                 fontFamily = NunitoFontFamily,
                 fontWeight = FontWeight.SemiBold,
                 color = black
@@ -51,7 +52,7 @@ fun DeleteCommentDialog(
                 ),
             ) {
                 Text(
-                    text = "Delete Comment",
+                    text = "Delete ${infoText}",
                     fontFamily = NunitoFontFamily,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -74,8 +75,9 @@ fun DeleteCommentDialog(
 @Preview(showBackground = true)
 @Composable
 fun DeleteCommentDialogPreview() {
-    DeleteCommentDialog(
+    AreYouSureDialog(
         onConfirm = {},
-        onDismiss = {}
+        onDismiss = {},
+        infoText = "comment"
     )
 }

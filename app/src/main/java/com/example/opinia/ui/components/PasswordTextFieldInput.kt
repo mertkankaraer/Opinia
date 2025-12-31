@@ -50,6 +50,7 @@ fun PasswordTextFieldInput(
     textColor: Color = black,
     iconColor: Color = black,
     cursorColor: Color = black,
+    isPasswordDummy: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     var showPassword by remember { mutableStateOf(false) }
@@ -110,47 +111,49 @@ fun PasswordTextFieldInput(
             }
         )
 
-        AnimatedVisibility(
-            visible = value.isNotEmpty() && isFocused,
-            enter = expandVertically() + fadeIn(),
-            exit = shrinkVertically() + fadeOut()
-        ) {
-            Card(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .width(270.dp),
-                colors = CardDefaults.cardColors(containerColor = OpinialightBlue),
-                elevation = CardDefaults.cardElevation(4.dp),
-                shape = MaterialTheme.shapes.medium
+        if (!isPasswordDummy) {
+            AnimatedVisibility(
+                visible = value.isNotEmpty() && isFocused,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
             ) {
-                Column(modifier = Modifier.padding(12.dp)) {
-                    Text(
-                        "Password Rules:",
-                        color = Color(0xFF1E2223),
-                        fontFamily = NunitoFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                    rules.forEach { (label, isValid) ->
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(vertical = 2.dp)
-                        ) {
-                            Icon(
-                                imageVector = if (isValid) Icons.Filled.CheckCircle else Icons.Filled.Cancel,
-                                contentDescription = null,
-                                tint = if (isValid) Color.Green.copy(0.6f) else Color.Red.copy(0.6f),
-                                modifier = Modifier.size(14.dp)
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                text = label,
-                                color = if (isValid) Color(0xFF1E2223) else Color(0xFF1E2223).copy(0.8f),
-                                fontFamily = WorkSansFontFamily,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 10.sp,
-                            )
+                Card(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .width(270.dp),
+                    colors = CardDefaults.cardColors(containerColor = OpinialightBlue),
+                    elevation = CardDefaults.cardElevation(4.dp),
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Text(
+                            "Password Rules:",
+                            color = Color(0xFF1E2223),
+                            fontFamily = NunitoFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        rules.forEach { (label, isValid) ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(vertical = 2.dp)
+                            ) {
+                                Icon(
+                                    imageVector = if (isValid) Icons.Filled.CheckCircle else Icons.Filled.Cancel,
+                                    contentDescription = null,
+                                    tint = if (isValid) Color.Green.copy(0.6f) else Color.Red.copy(0.6f),
+                                    modifier = Modifier.size(14.dp)
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = label,
+                                    color = if (isValid) Color(0xFF1E2223) else Color(0xFF1E2223).copy(0.8f),
+                                    fontFamily = WorkSansFontFamily,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 10.sp,
+                                )
+                            }
                         }
                     }
                 }
