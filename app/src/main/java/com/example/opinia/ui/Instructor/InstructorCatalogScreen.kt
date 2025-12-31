@@ -76,9 +76,8 @@ fun InstructorCatalogContent(
                 CustomTopAppBar(
                     avatarResId = uiState.userAvatarResId,
                     onAvatarClick = onAvatarClick,
-                    text = "Instructor Catalog"
+                    text = "Professors" // <--- İsim değişti
                 )
-
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Box(

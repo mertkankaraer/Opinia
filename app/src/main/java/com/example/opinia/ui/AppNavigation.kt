@@ -166,30 +166,30 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 InstructorCatalogScreen(navController)
             }
 
-            composable(
-                route = Destination.INSTRUCTOR_LIST.route,
-                arguments = listOf(
-                    navArgument("departmentName") { type = NavType.StringType },
-                    // Yeni argüman tanımı:
-                    navArgument("targetInstructorId") {
-                        type = NavType.StringType
-                        nullable = true
-                        defaultValue = null
-                    }
+        composable(
+            route = Destination.INSTRUCTOR_LIST.route,
+            arguments = listOf(
+                navArgument("departmentName") { type = NavType.StringType },
+                navArgument("targetInstructorId") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
+            val targetInstructorId = backStackEntry.arguments?.getString("targetInstructorId")
 
-                )
-            ) { backStackEntry ->
-                val departmentId = backStackEntry.arguments?.getString("departmentName") ?: ""
-                // ID'yi alıyoruz:
-                val targetInstructorId = backStackEntry.arguments?.getString("targetInstructorId")
+            // YENİ EKLENEN KISIM: SearchViewModel'i tanımlıyoruz
+            val searchViewModel: SearchViewModel = hiltViewModel()
 
-                // Ekrana gönderiyoruz:
-                InstructorListScreen(
-                    navController = navController,
-                    departmentId = departmentId,
-                    targetInstructorId = targetInstructorId
-                )
-            }
+            InstructorListScreen(
+                navController = navController,
+                departmentId = departmentId,
+                targetInstructorId = targetInstructorId,
+                searchViewModel = searchViewModel // YENİ: Ekrana gönderiyoruz
+            )
+        }
 
             //yorum ekranına courseId vermeniz gerekiyor
             composable(
