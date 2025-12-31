@@ -16,17 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.opinia.data.model.Instructor
 import com.example.opinia.ui.Destination
 import com.example.opinia.ui.component.BottomNavBar
 import com.example.opinia.ui.components.CustomTopAppBar
-import com.example.opinia.ui.components.SearchBar
+import com.example.opinia.ui.search.GeneralSearchBar // Yeni bar
+import com.example.opinia.ui.search.SearchViewModel // Yeni viewmodel
 import com.example.opinia.ui.theme.NunitoFontFamily
 import com.example.opinia.ui.theme.OpiniaGreyWhite
 import com.example.opinia.ui.theme.OpinialightBlue
@@ -37,16 +37,18 @@ import com.example.opinia.ui.theme.black
 fun InstructorListScreen(
     navController: NavController,
     departmentId: String,
-    targetInstructorId: String? = null, // <--- BU SATIRI EKLE (varsayılanı null)
-    viewModel: InstructorViewModel = hiltViewModel()
+    targetInstructorId: String? = null,
+    viewModel: InstructorViewModel = hiltViewModel(),
+    searchViewModel: SearchViewModel = hiltViewModel() // YENİ: Parametre olarak eklendi
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var searchText by remember { mutableStateOf("") }
+
+    // Eski searchText state'ini sildik çünkü artık GeneralSearchBar kullanıyoruz.
+
     val view = androidx.compose.ui.platform.LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as android.app.Activity).window
-            // true = siyah ikonlar (açık renk arka plan için)
             androidx.core.view.WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
         }
     }
@@ -57,12 +59,8 @@ fun InstructorListScreen(
 
     InstructorListContent(
         uiState = uiState,
-        searchText = searchText,
+        searchViewModel = searchViewModel, // İçeri gönderiyoruz
         navController = navController,
-        onSearchChange = {
-            searchText = it
-            viewModel.searchInstructorsLocally(it)
-        },
         onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) }
     )
 }
@@ -70,20 +68,43 @@ fun InstructorListScreen(
 @Composable
 fun InstructorListContent(
     uiState: InstructorUiState,
-    searchText: String,
+    searchViewModel: SearchViewModel, // YENİ
     navController: NavController,
-    onSearchChange: (String) -> Unit,
     onAvatarClick: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = OpiniaGreyWhite,
         topBar = {
-            CustomTopAppBar(
-                avatarResId = uiState.userAvatarResId,
-                onAvatarClick = onAvatarClick,
-                text = "Professors"
-            )
+            // YENİ YAPI: TopBar ve SearchBar bir arada
+            Column(modifier = Modifier.fillMaxWidth()) {
+                CustomTopAppBar(
+                    avatarResId = uiState.userAvatarResId,
+                    onAvatarClick = onAvatarClick,
+                    text = "Professors"
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .zIndex(10f) // SearchBar'ın listenin üstünde kalması için
+                ) {
+                    GeneralSearchBar(
+                        searchViewModel = searchViewModel,
+                        onNavigateToCourse = { }, // Burası boş kalabilir
+                        onNavigateToInstructor = { instructor ->
+                            // Arama sonucuna tıklayınca o hocaya gitme mantığı
+                            val deptId = instructor.departmentIds.firstOrNull() ?: "unknown"
+                            val route = Destination.INSTRUCTOR_LIST.route
+                                .replace("{departmentName}", deptId)
+                                .replace("{targetInstructorId}", instructor.instructorId)
+                            navController.navigate(route)
+                        }
+                    )
+                }
+            }
         },
         bottomBar = { BottomNavBar(navController = navController) },
     ) { paddingValues ->
@@ -94,14 +115,14 @@ fun InstructorListContent(
                 .background(OpiniaGreyWhite)
                 .padding(horizontal = 16.dp)
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
-
-            SearchBar(searchText, onSearchChange)
+            // Eski SearchBar buradan kaldırıldı.
 
             Spacer(modifier = Modifier.height(32.dp))
 
             if (uiState.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             } else {
                 Text(
                     color = black,
@@ -125,6 +146,7 @@ fun InstructorListContent(
     }
 }
 
+// ProfessorCard ve ProfessorInfoRow bileşenlerin aynı kalabilir, aşağıda tekrar yazmadım ama dosyanın altında durmalılar.
 @Composable
 fun ProfessorCard(instructor: Instructor) {
     Column(
@@ -137,7 +159,7 @@ fun ProfessorCard(instructor: Instructor) {
         ProfessorInfoRow(
             icon = Icons.Outlined.AccountBox,
             text = "${instructor.instructorTitle} ${instructor.instructorName}",
-            isBold = false // <--- BURAYI true YERİNE false YAP
+            isBold = false
         )
         ProfessorInfoRow(icon = Icons.Outlined.Phone, text = instructor.phoneNumber ?: "N/A")
         ProfessorInfoRow(icon = Icons.Outlined.Email, text = instructor.instructorEmail)
@@ -162,25 +184,4 @@ fun ProfessorInfoRow(icon: ImageVector, text: String, isBold: Boolean = false) {
             color = Color.Black.copy(alpha = 0.8f)
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InstructorListScreenPreview() {
-    val dummyInstructors = listOf(
-        Instructor(instructorName = "Neda Üçer", instructorTitle = "Prof.", instructorEmail = "neda@edu.tr", phoneNumber = "1234"),
-        Instructor(instructorName = "Cem Bölüktaş", instructorTitle = "Asst. Prof.", instructorEmail = "cem@edu.tr", phoneNumber = "5678")
-    )
-    val dummyState = InstructorUiState(
-        currentDepartmentName = "Visual Communication Design",
-        filteredInstructorList = dummyInstructors
-    )
-
-    InstructorListContent(
-        uiState = dummyState,
-        searchText = "",
-        navController = rememberNavController(),
-        onSearchChange = {},
-        onAvatarClick = {}
-    )
 }
