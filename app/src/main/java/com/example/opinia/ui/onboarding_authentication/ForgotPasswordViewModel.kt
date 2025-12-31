@@ -20,6 +20,7 @@ data class ForgotPasswordUiState (
 )
 
 sealed class ForgotPasswordUiEvent {
+    data class ForgotPasswordSuccess(val message: String): ForgotPasswordUiEvent()
     data class ForgotPasswordError(val message: String): ForgotPasswordUiEvent()
 }
 
@@ -78,7 +79,7 @@ class ForgotPasswordViewModel @Inject constructor(private val authRepository: Au
             }
             val result = resetPasswordUseCase(uiState.value.email)
             if (result.isSuccess) {
-                _uiEvent.send(ForgotPasswordUiEvent.ForgotPasswordError("Password reset email sent"))
+                _uiEvent.send(ForgotPasswordUiEvent.ForgotPasswordSuccess("Password reset email sent"))
             }
             else {
                 _uiEvent.send(ForgotPasswordUiEvent.ForgotPasswordError(result.exceptionOrNull()?.message ?: "Unknown error"))

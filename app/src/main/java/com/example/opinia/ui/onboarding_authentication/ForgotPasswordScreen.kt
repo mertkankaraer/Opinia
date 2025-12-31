@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import com.example.opinia.R
+import com.example.opinia.ui.Destination
 import com.example.opinia.ui.components.CustomButton
 import com.example.opinia.ui.components.TextFieldInput
 import com.example.opinia.ui.theme.NunitoFontFamily
@@ -137,6 +138,14 @@ fun ForgotPasswordScreen(navController: NavController, forgotPasswordViewModel: 
             when(event) {
                 is ForgotPasswordUiEvent.ForgotPasswordError -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                }
+                is ForgotPasswordUiEvent.ForgotPasswordSuccess -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                    navController.navigate(Destination.LOGIN.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
