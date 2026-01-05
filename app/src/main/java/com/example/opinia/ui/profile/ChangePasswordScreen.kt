@@ -125,7 +125,8 @@ fun ChangePasswordContent(
                 backgroundColor = OpinialightBlue,
                 textColor = OpiniaDeepBlue,
                 iconColor = OpiniaDeepBlue,
-                cursorColor = OpiniaDeepBlue
+                cursorColor = OpiniaDeepBlue,
+                isPasswordDummy = true
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -167,7 +168,8 @@ fun ChangePasswordContent(
                 backgroundColor = OpinialightBlue,
                 textColor = OpiniaDeepBlue,
                 iconColor = OpiniaDeepBlue,
-                cursorColor = OpiniaDeepBlue
+                cursorColor = OpiniaDeepBlue,
+                isPasswordDummy = true
             )
 
             Spacer(modifier = Modifier.height(84.dp))
