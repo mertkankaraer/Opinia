@@ -199,8 +199,8 @@ fun ChangeStudentInfoContent(
                 text = "Save",
                 shape = MaterialTheme.shapes.medium,
                 textStyle = MaterialTheme.typography.titleMedium,
-                containerColor = OpinialightBlue,
-                contentColor = OpiniaDeepBlue,
+                containerColor = OpiniaDeepBlue,
+                contentColor = OpinialightBlue,
                 modifier = Modifier
                     .height(42.dp)
                     .width(180.dp)

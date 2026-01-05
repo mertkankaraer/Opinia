@@ -317,7 +317,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun startEmailVerificationCheck() {
+    fun startEmailVerificationCheck() {
         verificationJob?.cancel()
         verificationJob = viewModelScope.launch {
             val timeOut = 5*60*1000L

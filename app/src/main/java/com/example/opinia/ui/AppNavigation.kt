@@ -80,91 +80,91 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Destination.START.route, builder = {
-            composable(Destination.START.route) {
-                val splashViewModel: SplashViewModel = hiltViewModel()
-                SplashScreen(navController, splashViewModel)
-            }
+        composable(Destination.START.route) {
+            val splashViewModel: SplashViewModel = hiltViewModel()
+            SplashScreen(navController, splashViewModel)
+        }
 
-            composable(Destination.CHOOSE_LOGIN_OR_SIGNUP.route) {
-                ChooseLoginOrSignupScreen(navController)
-            }
+        composable(Destination.CHOOSE_LOGIN_OR_SIGNUP.route) {
+            ChooseLoginOrSignupScreen(navController)
+        }
 
-            composable(Destination.LOGIN.route) {
-                val loginViewModel: LoginViewModel = hiltViewModel()
-                LoginScreen(navController, loginViewModel)
-            }
+        composable(Destination.LOGIN.route) {
+            val loginViewModel: LoginViewModel = hiltViewModel()
+            LoginScreen(navController, loginViewModel)
+        }
 
-            composable(Destination.FORGOT_PASSWORD.route) {
-                val forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel()
-                ForgotPasswordScreen(navController, forgotPasswordViewModel)
-            }
+        composable(Destination.FORGOT_PASSWORD.route) {
+            val forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel()
+            ForgotPasswordScreen(navController, forgotPasswordViewModel)
+        }
 
-            // SIGNUP EKRANLARI İÇİNDE KULLANILACAK SCREENLER
-            navigation(startDestination = Destination.SIGNUP_PERSONAL_INFO.route, route = "register_flow") {
-                composable(Destination.SIGNUP_PERSONAL_INFO.route) {
-                    val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
-                    SignupStudentPersonalScreen(navController, registerViewModel)
-                }
-                composable(Destination.CHOOSE_AVATAR.route) {
-                    val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
-                    SignupStudentAvatarScreen(navController, registerViewModel)
-                }
-                composable(Destination.SIGNUP_ACADEMIC_INFO.route) {
-                    val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
-                    SignupStudentAcademicScreen(navController, registerViewModel)
-                }
-                composable(Destination.SIGNUP_COURSE_INFO.route) {
-                    val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
-                    SignupStudentCourseScreen(navController, registerViewModel)
-                }
+        // SIGNUP EKRANLARI İÇİNDE KULLANILACAK SCREENLER
+        navigation(startDestination = Destination.SIGNUP_PERSONAL_INFO.route, route = "register_flow") {
+            composable(Destination.SIGNUP_PERSONAL_INFO.route) {
+                val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
+                SignupStudentPersonalScreen(navController, registerViewModel)
             }
+            composable(Destination.CHOOSE_AVATAR.route) {
+                val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
+                SignupStudentAvatarScreen(navController, registerViewModel)
+            }
+            composable(Destination.SIGNUP_ACADEMIC_INFO.route) {
+                val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
+                SignupStudentAcademicScreen(navController, registerViewModel)
+            }
+            composable(Destination.SIGNUP_COURSE_INFO.route) {
+                val registerViewModel = it.sharedViewModel<RegisterViewModel>(navController)
+                SignupStudentCourseScreen(navController, registerViewModel)
+            }
+        }
 
-            composable(Destination.DASHBOARD.route) {
-                val dashboardViewModel: DashboardViewModel = hiltViewModel()
-                val searchViewModel: SearchViewModel = hiltViewModel()
-                DashboardScreen(navController, dashboardViewModel, searchViewModel)
-            }
+        composable(Destination.DASHBOARD.route) {
+            val dashboardViewModel: DashboardViewModel = hiltViewModel()
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            DashboardScreen(navController, dashboardViewModel, searchViewModel)
+        }
 
-            composable(Destination.STUDENT_PROFILE.route) {
-                val profileScreenViewModel: ProfileViewModel = hiltViewModel()
-                ProfileScreen(navController, profileScreenViewModel)
-            }
+        composable(Destination.STUDENT_PROFILE.route) {
+            val profileScreenViewModel: ProfileViewModel = hiltViewModel()
+            ProfileScreen(navController, profileScreenViewModel)
+        }
 
-            composable(Destination.STUDENT_SAVED_COURSES.route) {
-                val savedCoursesViewModel: SavedCoursesViewModel = hiltViewModel()
-                val searchViewModel: SearchViewModel = hiltViewModel()
-                SavedCoursesScreen(navController, savedCoursesViewModel, searchViewModel)
-            }
+        composable(Destination.STUDENT_SAVED_COURSES.route) {
+            val savedCoursesViewModel: SavedCoursesViewModel = hiltViewModel()
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            SavedCoursesScreen(navController, savedCoursesViewModel, searchViewModel)
+        }
 
-            composable(Destination.STUDENT_ADD_COURSE1.route) {
-                val addCourseViewModel: AddCourseViewModel = hiltViewModel()
-                val searchViewModel: SearchViewModel = hiltViewModel()
-                AddCourse1Screen(navController, addCourseViewModel, searchViewModel)
-            }
+        composable(Destination.STUDENT_ADD_COURSE1.route) {
+            val addCourseViewModel: AddCourseViewModel = hiltViewModel()
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            AddCourse1Screen(navController, addCourseViewModel, searchViewModel)
+        }
 
-            composable(Destination.STUDENT_CHANGE_AVATAR.route) {
-                val changeAvatarViewModel: ChangeAvatarViewModel = hiltViewModel()
-                ChangeAvatarScreen(navController, changeAvatarViewModel)
-            }
+        composable(Destination.STUDENT_CHANGE_AVATAR.route) {
+            val changeAvatarViewModel: ChangeAvatarViewModel = hiltViewModel()
+            ChangeAvatarScreen(navController, changeAvatarViewModel)
+        }
 
-            composable(Destination.STUDENT_CHANGE_STUDENT_INFO.route) {
-                val changeStudentInfoViewModel: ChangeStudentInfoViewModel = hiltViewModel()
-                ChangeStudentInfoScreen(navController, changeStudentInfoViewModel)
-            }
+        composable(Destination.STUDENT_CHANGE_STUDENT_INFO.route) {
+            val changeStudentInfoViewModel: ChangeStudentInfoViewModel = hiltViewModel()
+            ChangeStudentInfoScreen(navController, changeStudentInfoViewModel)
+        }
 
-            composable(Destination.STUDENT_CHANGE_PASSWORD.route) {
-                val changePasswordViewModel: ChangePasswordViewModel = hiltViewModel()
-                ChangePasswordScreen(navController, changePasswordViewModel)
-            }
+        composable(Destination.STUDENT_CHANGE_PASSWORD.route) {
+            val changePasswordViewModel: ChangePasswordViewModel = hiltViewModel()
+            ChangePasswordScreen(navController, changePasswordViewModel)
+        }
 
-            composable(Destination.SUPPORT.route) {
-                val supportViewModel: SupportViewModel = hiltViewModel()
-                SupportScreen(navController, supportViewModel)
-            }
+        composable(Destination.SUPPORT.route) {
+            val supportViewModel: SupportViewModel = hiltViewModel()
+            SupportScreen(navController, supportViewModel)
+        }
 
-            composable(Destination.INSTRUCTOR_CATALOG.route) {
-                InstructorCatalogScreen(navController)
-            }
+        composable(Destination.INSTRUCTOR_CATALOG.route) {
+            InstructorCatalogScreen(navController)
+        }
 
         composable(
             route = Destination.INSTRUCTOR_LIST.route,
@@ -191,38 +191,37 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             )
         }
 
-            //yorum ekranına courseId vermeniz gerekiyor
-            composable(
-                route = Destination.COMMENT_REVIEW.route,
-                arguments = listOf(
-                    navArgument("courseId") {
-                        type = NavType.StringType
-                    }
-                )
-            ) {
-                val commentReviewViewModel: CommentReviewViewModel = hiltViewModel()
-                val searchViewModel: SearchViewModel = hiltViewModel()
-                CommentReviewScreen(navController, commentReviewViewModel, searchViewModel)
-            }
-
-            composable(Destination.COURSE_CATALOG.route) {
-                val courseCatalogViewModel: CourseCatalogViewModel = hiltViewModel()
-                val searchViewModel: SearchViewModel = hiltViewModel()
-                CourseCatalogScreen1(navController, courseCatalogViewModel, searchViewModel)
-            }
-
-            composable(
-                route = Destination.COURSE_DETAIL.route,
-                arguments = listOf(
-                    navArgument("courseId") {
-                        type = NavType.StringType
-                    }
-                )
-            ) {
-                val courseDetailViewModel: CourseDetailViewModel = hiltViewModel()
-                val searchViewModel: SearchViewModel = hiltViewModel()
-                CourseDetailScreen(navController, courseDetailViewModel, searchViewModel)
-            }
+        //yorum ekranına courseId vermeniz gerekiyor
+        composable(
+            route = Destination.COMMENT_REVIEW.route,
+            arguments = listOf(
+                navArgument("courseId") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val commentReviewViewModel: CommentReviewViewModel = hiltViewModel()
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            CommentReviewScreen(navController, commentReviewViewModel, searchViewModel)
         }
-    )
+
+        composable(Destination.COURSE_CATALOG.route) {
+            val courseCatalogViewModel: CourseCatalogViewModel = hiltViewModel()
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            CourseCatalogScreen1(navController, courseCatalogViewModel, searchViewModel)
+        }
+
+        composable(
+            route = Destination.COURSE_DETAIL.route,
+            arguments = listOf(
+                navArgument("courseId") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val courseDetailViewModel: CourseDetailViewModel = hiltViewModel()
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            CourseDetailScreen(navController, courseDetailViewModel, searchViewModel)
+        }
+    })
 }

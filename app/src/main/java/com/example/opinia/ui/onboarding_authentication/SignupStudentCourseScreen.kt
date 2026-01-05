@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -35,6 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.example.opinia.R
 import com.example.opinia.data.model.Course
@@ -135,6 +139,7 @@ fun SignupStudentCourseScreen(navController: NavController, registerViewModel: R
 
     val uiState by registerViewModel.uiState.collectAsState()
     val context  = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -142,6 +147,18 @@ fun SignupStudentCourseScreen(navController: NavController, registerViewModel: R
             val window = (view.context as Activity).window
             window.statusBarColor = android.graphics.Color.WHITE
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+        }
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                registerViewModel.startEmailVerificationCheck()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 

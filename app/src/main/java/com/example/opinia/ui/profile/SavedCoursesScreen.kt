@@ -215,7 +215,7 @@ fun SavedCoursesScreen(
     }
 
     SavedCoursesContent(
-        avatarResId = uiState.avatarResId ?: R.drawable.turuncu,
+        avatarResId = uiState.avatarResId ?: R.drawable.ic_launcher_foreground,
         onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) },
         controller = navController,
         departmentName = uiState.departmentName,

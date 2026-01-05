@@ -13,6 +13,6 @@ class AvatarProvider @Inject constructor() {
     )
 
     fun getAvatarResId(key: String): Int {
-        return avatars.find { it.key == key }?.resId ?: R.drawable.turuncu // eğer null ise default turuncu dönsün
+        return avatars.find { it.key == key }?.resId ?: R.drawable.ic_launcher_foreground
     }
 }

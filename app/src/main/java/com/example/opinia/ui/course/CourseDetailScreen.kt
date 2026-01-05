@@ -99,7 +99,7 @@ fun CourseDetailContent(
         topBar = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 CustomTopAppBar(
-                    avatarResId = uiState.avatarResId ?: R.drawable.ic_launcher_background,
+                    avatarResId = uiState.avatarResId ?: R.drawable.ic_launcher_foreground,
                     onAvatarClick = onAvatarClick,
                     text = "Course Comments",
                 )

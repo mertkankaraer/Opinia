@@ -280,7 +280,7 @@ fun AddCourse1Screen(
 
     if (uiState.step == 1) {
         AddCourse1Content(
-            avatarResId = uiState.avatarResId ?: R.drawable.turuncu,
+            avatarResId = uiState.avatarResId ?: R.drawable.ic_launcher_foreground,
             onAvatarClick = { navController.navigate(Destination.STUDENT_PROFILE.route) },
             query = uiState.searchQuery,
             controller = navController,
